@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>91888 기획전 전용 할인쿠폰 — SB</title>
+<style>
+  :root {
+    --ink: #1a1d23;
+    --sub: #6b7280;
+    --line: #e2e5ea;
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --accent: #2f6fed;
+    --badge-draft: #f59e0b;
+    --badge-review: #2f6fed;
+    --badge-done: #16a34a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  header.doc-head {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header.doc-head h1 { margin: 0 0 4px; font-size: 20px; }
+  header.doc-head .meta { color: var(--sub); font-size: 13px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--badge-draft);
+  }
+  nav.screen-index {
+    max-width: 1100px;
+    margin: 20px auto 0;
+    padding: 0 32px;
+  }
+  nav.screen-index ol {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+  nav.screen-index a {
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  nav.screen-index a:hover { border-color: var(--accent); color: var(--accent); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+  section.screen {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    scroll-margin-top: 100px;
+    overflow: hidden;
+  }
+  .screen-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .screen-header .title { font-size: 16px; font-weight: 700; }
+  .screen-header .id { color: var(--sub); font-size: 13px; margin-left: 8px; font-weight: 400; }
+  .screen-body {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 860px) {
+    .screen-body { grid-template-columns: 1fr; }
+  }
+  .mockup {
+    padding: 20px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+  }
+  .mockup-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    border: 2px dashed var(--line);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sub);
+    font-size: 13px;
+    text-align: center;
+    padding: 16px;
+  }
+  .mockup img { max-width: 100%; border-radius: 6px; display: block; }
+
+  .notes { padding: 20px; }
+  .notes h3 { margin: 0 0 12px; font-size: 13px; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+  .notes ol { margin: 0; padding-left: 20px; }
+  .notes li { margin-bottom: 10px; font-size: 14px; }
+  .notes li::marker { font-weight: 700; color: var(--accent); }
+
+  .exceptions {
+    margin: 0 20px 20px;
+    padding: 12px 16px;
+    background: #fff8ec;
+    border: 1px solid #f4dfae;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .exceptions strong { display: block; margin-bottom: 6px; }
+
+  .howto {
+    max-width: 1100px;
+    margin: 24px auto 0;
+    padding: 16px 32px;
+    color: var(--sub);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <h1>91888 기획전 전용 할인쿠폰 — SB (화면설계서)</h1>
+  <div class="meta">
+    <span class="badge">작성 중</span>
+    <span>최종 수정: 2026-09-30</span>
+    <span>원본: Notion PRD · Obsidian PJT 대시보드 (README.md 참고)</span>
+  </div>
+</header>
+
+<nav class="screen-index">
+  <ol>
+    <li><a href="#screen-01">01. 화면명 미정</a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <section class="screen" id="screen-01">
+    <div class="screen-header">
+      <div><span class="title">화면명 미정</span><span class="id">SCR-01</span></div>
+      <span class="badge">초안</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <div class="mockup-placeholder">
+          목업/캡처 이미지 자리<br>
+          (assets/ 폴더에 이미지 넣고 &lt;img&gt; 태그로 교체)
+        </div>
+      </div>
+      <div class="notes">
+        <h3>화면 설명</h3>
+        <ol>
+          <li>① 여기에 번호별 UI 요소 설명을 채운다.</li>
+          <li>② 목업 이미지 위 번호와 이 목록의 번호를 맞춘다.</li>
+          <li>③ 정책/조건이 있으면 조건을 명시한다.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="exceptions">
+      <strong>예외/분기</strong>
+      예외 케이스나 분기 조건이 있으면 여기에 기술한다. 없으면 이 블록은 삭제한다.
+    </div>
+  </section>
+
+  <!--
+    화면 추가 방법: 위 <section class="screen" id="screen-01">...</section> 블록 전체를
+    복제해 id를 screen-02, screen-03 순으로 바꾸고 nav의 <li><a href="#screen-02">...</a></li>도 추가한다.
+  -->
+
+</main>
+
+<p class="howto">
+  화면 추가: <code>section.screen</code> 블록을 복제하고 id·제목·번호를 바꾼 뒤 상단 nav에 링크를 추가한다.
+</p>
+
+</body>
+</html>
