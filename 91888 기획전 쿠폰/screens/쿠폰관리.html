@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쿠폰관리 — Master Administrator</title>
+<style>
+  :root {
+    --page-bg: #eef1f4;
+    --panel-bg: #ffffff;
+    --border: #c7d0db;
+    --border-soft: #dde3ea;
+    --topbar-border: #dcdfe3;
+    --tabbar-bg: #eef2f7;
+    --tab-bg: #dceafb;
+    --tab-border: #a9cdf2;
+    --tab-text: #1c4e86;
+    --section-accent: #4472c4;
+    --label-bg: #eef3fb;
+    --label-text: #24405f;
+    --active-tab-bg: #e2531c;
+    --inactive-tab-bg: #e4e4e4;
+    --required-mark: #e0392c;
+    --btn-bg: #f0f0f0;
+    --btn-border: #bfc6cd;
+    --btn-primary-bg: #3b587e;
+    --grid-head-bg: #dce8f8;
+    --grid-focus-bg: #eef6d9;
+    --focus-accent: #8bc34a;
+    --ink: #23262b;
+    --sub: #6b7480;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--ink);
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    font-size: 12.5px;
+  }
+  input, select, textarea, button { font-family: inherit; font-size: 12.5px; }
+
+  /* ── 상단 헤더 ───────────────────────── */
+  header.top-bar {
+    background: var(--panel-bg);
+    border-bottom: 1px solid var(--topbar-border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  header.top-bar .brand { font-size: 19px; }
+  header.top-bar .brand b { color: #1a1d23; }
+  header.top-bar .brand span { color: #8b939c; font-weight: 400; margin-left: 6px; font-size: 15px; }
+  header.top-bar nav.user-nav { color: #8b939c; font-size: 12.5px; }
+  header.top-bar nav.user-nav b { color: #1a1d23; }
+  header.top-bar nav.user-nav a { color: #8b939c; text-decoration: none; }
+  header.top-bar nav.user-nav a:hover { text-decoration: underline; }
+  header.top-bar nav.user-nav .sep { margin: 0 8px; color: #c6ccd2; }
+
+  /* ── MDI 탭바 ───────────────────────── */
+  .tab-bar {
+    background: var(--tabbar-bg);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+  }
+  .tab-bar .collapse-btn {
+    width: 20px; height: 22px;
+    border: 1px solid var(--border);
+    background: var(--panel-bg);
+    color: #5b6470;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+  .tab-bar .mdi-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--tab-bg);
+    border: 1px solid var(--tab-border);
+    color: var(--tab-text);
+    padding: 4px 10px;
+    white-space: nowrap;
+    cursor: default;
+    flex: 0 0 auto;
+  }
+  .tab-bar .mdi-tab .x {
+    cursor: pointer;
+    color: #6a89ad;
+    font-weight: 700;
+  }
+  .tab-bar .mdi-tab .x:hover { color: #1c4e86; }
+  .tab-bar .mdi-tab.closed { display: none; }
+
+  /* ── 본문 영역 ───────────────────────── */
+  main { max-width: 1560px; margin: 0 auto; padding: 14px 18px 60px; }
+
+  .page-title {
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 4px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .page-title .bullet { color: #1a1d23; }
+
+  .sub-tabs { display: flex; gap: 2px; }
+  .sub-tabs button {
+    border: none;
+    padding: 9px 26px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--inactive-tab-bg);
+    color: #444;
+  }
+  .sub-tabs button.active {
+    background: var(--active-tab-bg);
+    color: #fff;
+  }
+
+  .panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 0 0 18px;
+  }
+  .panel[hidden] { display: none; }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-top: 2px solid var(--section-accent);
+    border-bottom: 1px solid var(--section-accent);
+    margin-top: 18px;
+  }
+  .section-title .bullet { color: var(--section-accent); font-size: 11px; }
+  .section-title:first-of-type { margin-top: 0; }
+
+  table.form-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  table.form-grid col.lbl { width: 128px; }
+  table.form-grid col.val { width: auto; }
+  table.form-grid th, table.form-grid td {
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 7px 10px;
+    vertical-align: middle;
+    text-align: left;
+  }
+  table.form-grid tr:first-child th,
+  table.form-grid tr:first-child td { border-top: 1px solid var(--border); }
+
+  th.field-label {
+    background: var(--label-bg);
+    color: var(--label-text);
+    font-weight: 700;
+    position: relative;
+    white-space: nowrap;
+  }
+  th.field-label::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-top: 6px solid var(--required-mark);
+    border-right: 6px solid transparent;
+  }
+  th.field-label.optional::before { display: none; }
+
+  td.field-value { background: #fff; }
+  td.field-value .field-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  td.field-value .field-line + .field-line { margin-top: 6px; }
+  td.field-value .inline-label { color: var(--sub); margin: 0 4px 0 18px; }
+  td.field-value .inline-label:first-child { margin-left: 0; }
+  td.field-value .plain-text { color: #333; }
+  td.field-value .unit { color: var(--sub); margin-right: 10px; }
+
+  input[type="text"], input[type="number"], textarea {
+    border: 1px solid #b7c1cc;
+    padding: 3px 6px;
+    height: 23px;
+    background: #fff;
+    color: #23262b;
+  }
+  input[type="text"]:disabled, input[type="number"]:disabled { background: #f2f3f5; color: #9aa2ab; }
+  textarea { height: 52px; width: 100%; resize: vertical; font-family: inherit; }
+
+  input.w-short { width: 60px; }
+  input.w-num { width: 110px; }
+  input.w-date { width: 128px; }
+  input.w-mid { width: 160px; }
+  input.w-wide { width: 100%; }
+
+  label.radio { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap; }
+  label.radio input { cursor: pointer; }
+
+  button.btn {
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    padding: 4px 10px;
+    cursor: pointer;
+    color: #333;
+  }
+  button.btn:hover { background: #e4e6e9; }
+  button.btn.cal { padding: 3px 7px; }
+  button.btn.small { padding: 3px 9px; font-size: 12px; }
+
+  .cost-share-row { display: flex; align-items: center; gap: 4px; }
+
+  /* ── 적용고객사 그리드 ───────────────────────── */
+  table.data-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+  table.data-grid th {
+    background: var(--grid-head-bg);
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    text-align: center;
+    font-weight: 700;
+  }
+  table.data-grid td {
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    text-align: center;
+  }
+  table.data-grid td.name { text-align: left; }
+  table.data-grid tr.focused td { background: var(--grid-focus-bg); }
+  table.data-grid tr.focused td:first-child { border-left: 3px solid var(--focus-accent); }
+  table.data-grid col.sel { width: 60px; }
+  table.data-grid col.code { width: 220px; }
+  table.data-grid .empty-row td { color: var(--sub); padding: 16px; }
+
+  /* ── 하단 액션 버튼 ───────────────────────── */
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0 4px;
+  }
+  .form-actions button {
+    min-width: 92px;
+    padding: 8px 14px;
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .form-actions button.primary {
+    background: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: #fff;
+  }
+
+  /* ── 토스트 ───────────────────────── */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%) translateY(20px);
+    background: #23262b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── 팝업 모달 ───────────────────────── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20, 24, 30, .35);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+  }
+  .modal-overlay[hidden] { display: none; }
+  .modal {
+    background: #fff;
+    width: 420px;
+    max-width: 92vw;
+    border: 1px solid #b7c1cc;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+  .modal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--label-bg);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+  }
+  .modal-head .close { cursor: pointer; color: var(--sub); font-weight: 700; }
+  .modal-body { padding: 14px; }
+  .modal-body .search-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .modal-body .search-row input { flex: 1; }
+  .modal-list { border: 1px solid var(--border); max-height: 220px; overflow-y: auto; }
+  .modal-list .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 10px; border-bottom: 1px solid var(--border-soft); cursor: pointer;
+  }
+  .modal-list .row:last-child { border-bottom: none; }
+  .modal-list .row:hover { background: #f5f8fc; }
+  .modal-list .row .code { color: var(--sub); }
+  .modal-note { color: var(--sub); font-size: 12px; margin-top: 8px; }
+
+  .placeholder-panel {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--sub);
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="brand"><b>Master</b><span>Administrator</span></div>
+  <nav class="user-nav">
+    <b>박장훈</b>님 안녕하세요
+    <span class="sep">|</span><a href="#">캐시업데이트</a>
+    <span class="sep">|</span><a href="#">OTP설정</a>
+    <span class="sep">|</span><a href="#">비밀번호변경</a>
+    <span class="sep">|</span><a href="#">로그아웃</a>
+  </nav>
+</header>
+
+<div class="tab-bar" id="mdiTabBar">
+  <button class="collapse-btn" id="collapseBtn" type="button">▶</button>
+  <div class="mdi-tab"><span>고객사 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>고객사 계산서 발행관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>마스터 전시 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>판매분 정산확정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>판매분 정산정정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>협력사 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>사후결제 정산확정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>배너관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>기획전관리</span><span class="x">×</span></div>
+</div>
+
+<main>
+  <div class="page-title"><span class="bullet">■</span> 쿠폰관리</div>
+
+  <div class="sub-tabs">
+    <button type="button" class="active" data-panel="panel-info">쿠폰정보</button>
+    <button type="button" data-panel="panel-status">쿠폰발행 및 현황</button>
+  </div>
+
+  <!-- ───────── 쿠폰정보 ───────── -->
+  <div class="panel" id="panel-info">
+    <form id="couponForm">
+
+      <div class="section-title"><span class="bullet">■</span> 기본정보</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">쿠폰번호</th>
+            <td class="field-value"><span class="plain-text">TEST</span></td>
+            <th class="field-label optional">발행상태</th>
+            <td class="field-value"><span class="plain-text">발행중</span></td>
+          </tr>
+          <tr>
+            <th class="field-label">쿠폰명</th>
+            <td class="field-value"><input type="text" class="w-wide" value="테스트"></td>
+            <th class="field-label">상세노출</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="expose">노출</label>
+              <label class="radio"><input type="radio" name="expose" checked>노출안함</label>
+              <span class="inline-label">고객사 특별제안 여부</span>
+              <label class="radio"><input type="radio" name="specialOffer">적용</label>
+              <label class="radio"><input type="radio" name="specialOffer" checked>미적용</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">발행기간</th>
+            <td class="field-value">
+              <div class="field-line">
+                <input type="text" class="w-date" id="issueStart" value="2026-09-30 14:27">
+                <button type="button" class="btn cal" data-pair="issueStart">📅</button>
+              </div>
+              <div class="field-line">
+                <input type="text" class="w-date" id="issueEnd" value="2026-10-07 14:27">
+                <button type="button" class="btn cal" data-pair="issueEnd">📅</button>
+                <button type="button" class="btn small" id="tenMinBtn">10분 후 발행종료</button>
+              </div>
+            </td>
+            <th class="field-label">발행횟수제한</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="issueLimit" id="issueLimitOn" checked>적용</label>
+              <input type="text" class="w-num" id="issueLimitCount" value="10000">
+              <label class="radio"><input type="radio" name="issueLimit" id="issueLimitOff">무제한</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">할인유형</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="discountType" checked>정액할인</label>
+              <label class="radio"><input type="radio" name="discountType">정률할인</label>
+              <label class="radio"><input type="radio" name="discountType">없음</label>
+            </td>
+            <th class="field-label">쿠폰 총발급 수량</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="totalQty" id="totalQtyOn">적용</label>
+              <input type="text" class="w-num" id="totalQtyCount" disabled>
+              <label class="radio"><input type="radio" name="totalQty" id="totalQtyOff" checked>무제한</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">적용조건</th>
+            <td class="field-value" colspan="3">
+              <span class="inline-label" style="margin-left:0">할인액(율)</span>
+              <input type="text" class="w-short" value="10"><span class="unit">원(%)</span>
+              <span class="inline-label">최대할인액</span>
+              <input type="text" class="w-short" value="10"><span class="unit">원</span>
+              <span class="inline-label">적용제한가격</span>
+              <input type="text" class="w-num" value="10000000"><span class="unit">원</span>
+              <span class="inline-label">적용제한마진</span>
+              <input type="text" class="w-short" value="10"><span class="unit">%</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">적용유효기간</th>
+            <td class="field-value">
+              <div class="field-line">
+                <label class="radio"><input type="radio" name="validPeriod" id="validFromIssue">발급일로부터</label>
+                <input type="text" class="w-short" id="validFromIssueDays" disabled> <span class="unit">일</span>
+              </div>
+              <div class="field-line">
+                <label class="radio"><input type="radio" name="validPeriod" id="validFixed" checked>일자지정</label>
+                <input type="text" class="w-date" id="validStart" value="2026-09-30 14:29">
+                <button type="button" class="btn cal" data-pair="validStart">📅</button>
+                <span class="unit">~</span>
+                <input type="text" class="w-date" id="validEnd" value="2026-10-31 14:29">
+                <button type="button" class="btn cal" data-pair="validEnd">📅</button>
+              </div>
+            </td>
+            <th class="field-label">비용분담</th>
+            <td class="field-value">
+              <div class="field-line cost-share-row">
+                <span class="inline-label" style="margin-left:0">당사</span>
+                <input type="text" class="w-short" id="costUs" value="100">
+                <span class="unit">:</span>
+                <span class="inline-label">협력사</span>
+                <input type="text" class="w-short" id="costPartner" value="0">
+              </div>
+              <div class="field-line">
+                <span class="inline-label" style="margin-left:0">비용부담 협력사</span>
+                <input type="text" class="w-mid" id="costPartnerName" readonly>
+                <button type="button" class="btn small" id="partnerSearchBtn">검색</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">쿠폰설명</th>
+            <td class="field-value" colspan="3"><textarea>test</textarea></td>
+          </tr>
+          <tr>
+            <th class="field-label">쿠폰발행방식</th>
+            <td class="field-value" colspan="3">
+              <label class="radio"><input type="radio" name="issueMethod">다운로드</label>
+              <label class="radio"><input type="radio" name="issueMethod" checked>코드입력</label>
+              <label class="radio"><input type="radio" name="issueMethod">교환권</label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 적용범위</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label">디바이스 구분</th>
+            <td class="field-value" colspan="3">
+              <label class="radio"><input type="radio" name="device" checked>전체</label>
+              <label class="radio"><input type="radio" name="device">PC</label>
+              <label class="radio"><input type="radio" name="device">모바일</label>
+              <label class="radio"><input type="radio" name="device">앱</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">적용범위</th>
+            <td class="field-value" colspan="3">
+              <label class="radio"><input type="radio" name="scope" checked>전체</label>
+              <label class="radio"><input type="radio" name="scope">마스터카테고리</label>
+              <label class="radio"><input type="radio" name="scope">상품</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label" rowspan="2">적용고객사</th>
+            <td class="field-value" colspan="3">
+              <label class="radio"><input type="radio" name="companyScope" id="companyAll">전체</label>
+              <label class="radio"><input type="radio" name="companyScope" id="companyInclude" checked>적용</label>
+              <label class="radio"><input type="radio" name="companyScope" id="companyExclude">제외</label>
+              <span style="float:right">
+                <button type="button" class="btn small" id="addCompanyBtn">추가</button>
+                <button type="button" class="btn small" id="delCompanyBtn">삭제</button>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="field-value" colspan="3" id="companyGridWrap">
+              <table class="data-grid">
+                <colgroup><col class="sel"><col class="code"><col></colgroup>
+                <thead>
+                  <tr><th>선택</th><th>고객사번호</th><th>고객사명</th></tr>
+                </thead>
+                <tbody id="companyGridBody">
+                  <tr class="focused">
+                    <td><input type="checkbox"></td>
+                    <td>100</td>
+                    <td class="name">e-제너두(주)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="form-actions">
+        <button type="button" class="primary" id="issueBtn">쿠폰발행</button>
+        <button type="button" id="saveBtn">저장</button>
+        <button type="button" id="cancelBtn">취소</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ───────── 쿠폰발행 및 현황 (자리표시자) ───────── -->
+  <div class="panel" id="panel-status" hidden>
+    <div class="placeholder-panel">
+      발행 현황 화면은 원본 스크린샷에 없어 별도 설계가 필요하다.<br>
+      (쿠폰코드별 발급/사용 내역 목록 등이 들어갈 자리)
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="companyModal" hidden>
+  <div class="modal">
+    <div class="modal-head"><span>고객사 검색</span><span class="close" data-close="companyModal">×</span></div>
+    <div class="modal-body">
+      <div class="search-row">
+        <input type="text" placeholder="고객사명 또는 고객사번호">
+        <button type="button" class="btn small">검색</button>
+      </div>
+      <div class="modal-list" id="companyModalList">
+        <div class="row" data-code="101" data-name="한국문화진흥"><span>한국문화진흥</span><span class="code">101</span></div>
+        <div class="row" data-code="102" data-name="티오더"><span>티오더</span><span class="code">102</span></div>
+        <div class="row" data-code="103" data-name="보령LNG터미널"><span>보령LNG터미널</span><span class="code">103</span></div>
+        <div class="row" data-code="104" data-name="코난"><span>코난</span><span class="code">104</span></div>
+      </div>
+      <div class="modal-note">행을 클릭하면 적용고객사 목록에 추가된다. (데모 목록)</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="partnerModal" hidden>
+  <div class="modal">
+    <div class="modal-head"><span>협력사 검색</span><span class="close" data-close="partnerModal">×</span></div>
+    <div class="modal-body">
+      <div class="search-row">
+        <input type="text" placeholder="협력사명 또는 협력사코드">
+        <button type="button" class="btn small">검색</button>
+      </div>
+      <div class="modal-list" id="partnerModalList">
+        <div class="row" data-name="소프트그라운드"><span>소프트그라운드</span><span class="code">P-01</span></div>
+        <div class="row" data-name="코난"><span>코난</span><span class="code">P-02</span></div>
+      </div>
+      <div class="modal-note">행을 클릭하면 비용부담 협력사에 채워진다. (데모 목록)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // 서브탭 전환
+  document.querySelectorAll('.sub-tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.sub-tabs button').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('main > .panel').forEach(function (p) { p.hidden = true; });
+      document.getElementById(btn.dataset.panel).hidden = false;
+    });
+  });
+
+  // 상단 MDI 탭 닫기
+  document.querySelectorAll('.mdi-tab .x').forEach(function (x) {
+    x.addEventListener('click', function () { x.closest('.mdi-tab').classList.add('closed'); });
+  });
+  document.getElementById('collapseBtn').addEventListener('click', function () {
+    this.textContent = this.textContent === '▶' ? '◀' : '▶';
+  });
+
+  // 라디오에 딸린 입력 필드 활성/비활성
+  function bindToggle(onEl, offEl, targetEl) {
+    function sync() { targetEl.disabled = !onEl.checked; }
+    onEl.addEventListener('change', sync);
+    offEl.addEventListener('change', sync);
+    sync();
+  }
+  bindToggle(document.getElementById('issueLimitOn'), document.getElementById('issueLimitOff'), document.getElementById('issueLimitCount'));
+  bindToggle(document.getElementById('totalQtyOn'), document.getElementById('totalQtyOff'), document.getElementById('totalQtyCount'));
+
+  var validFromIssue = document.getElementById('validFromIssue');
+  var validFixed = document.getElementById('validFixed');
+  var validFromDays = document.getElementById('validFromIssueDays');
+  var validStart = document.getElementById('validStart');
+  var validEnd = document.getElementById('validEnd');
+  function syncValidPeriod() {
+    validFromDays.disabled = !validFromIssue.checked;
+    validStart.disabled = !validFixed.checked;
+    validEnd.disabled = !validFixed.checked;
+  }
+  validFromIssue.addEventListener('change', syncValidPeriod);
+  validFixed.addEventListener('change', syncValidPeriod);
+  syncValidPeriod();
+
+  // 적용고객사: 전체/적용/제외에 따라 그리드 노출
+  var companyAll = document.getElementById('companyAll');
+  var companyInclude = document.getElementById('companyInclude');
+  var companyExclude = document.getElementById('companyExclude');
+  var companyGridWrap = document.getElementById('companyGridWrap');
+  var addCompanyBtn = document.getElementById('addCompanyBtn');
+  var delCompanyBtn = document.getElementById('delCompanyBtn');
+  function syncCompanyScope() {
+    var show = !companyAll.checked;
+    companyGridWrap.style.display = show ? '' : 'none';
+    addCompanyBtn.disabled = !show;
+    delCompanyBtn.disabled = !show;
+  }
+  [companyAll, companyInclude, companyExclude].forEach(function (r) { r.addEventListener('change', syncCompanyScope); });
+  syncCompanyScope();
+
+  // 날짜 "10분 후 발행종료"
+  document.getElementById('tenMinBtn').addEventListener('click', function () {
+    var start = parseDateTime(document.getElementById('issueStart').value);
+    var base = start || new Date();
+    var end = new Date(base.getTime() + 10 * 60000);
+    document.getElementById('issueEnd').value = formatDateTime(end);
+  });
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function formatDateTime(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function parseDateTime(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/.exec((s || '').trim());
+    if (!m) return null;
+    return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+  }
+
+  // 달력 아이콘: 숨은 datetime-local 로 값 입력받아 텍스트 필드에 반영
+  document.querySelectorAll('button.cal').forEach(function (btn) {
+    var target = document.getElementById(btn.dataset.pair);
+    var hidden = document.createElement('input');
+    hidden.type = 'datetime-local';
+    hidden.style.position = 'absolute';
+    hidden.style.opacity = '0';
+    hidden.style.width = '1px';
+    hidden.style.height = '1px';
+    hidden.style.pointerEvents = 'none';
+    btn.parentNode.appendChild(hidden);
+    btn.addEventListener('click', function () {
+      var d = parseDateTime(target.value);
+      if (d) hidden.value = formatDateTime(d).replace(' ', 'T');
+      if (hidden.showPicker) { try { hidden.showPicker(); } catch (e) { hidden.click(); } }
+      else { hidden.click(); }
+    });
+    hidden.addEventListener('change', function () {
+      if (!hidden.value) return;
+      var d = new Date(hidden.value);
+      target.value = formatDateTime(d);
+    });
+  });
+
+  // 모달 공통
+  function openModal(id) { document.getElementById(id).hidden = false; }
+  function closeModal(id) { document.getElementById(id).hidden = true; }
+  document.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', function () { closeModal(el.dataset.close); });
+  });
+  document.querySelectorAll('.modal-overlay').forEach(function (ov) {
+    ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(ov.id); });
+  });
+
+  // 적용고객사 추가/삭제
+  addCompanyBtn.addEventListener('click', function () { openModal('companyModal'); });
+  document.getElementById('companyModalList').addEventListener('click', function (e) {
+    var row = e.target.closest('.row');
+    if (!row) return;
+    var tbody = document.getElementById('companyGridBody');
+    var exists = Array.prototype.some.call(tbody.querySelectorAll('td:nth-child(2)'), function (td) { return td.textContent === row.dataset.code; });
+    if (!exists) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td><input type="checkbox"></td><td>' + row.dataset.code + '</td><td class="name">' + row.dataset.name + '</td>';
+      tbody.appendChild(tr);
+    }
+    closeModal('companyModal');
+    showToast(row.dataset.name + ' 추가됨');
+  });
+  delCompanyBtn.addEventListener('click', function () {
+    var tbody = document.getElementById('companyGridBody');
+    var checked = tbody.querySelectorAll('input[type="checkbox"]:checked');
+    if (!checked.length) { showToast('삭제할 행을 선택하세요'); return; }
+    if (!confirm(checked.length + '건을 목록에서 삭제할까요?')) return;
+    checked.forEach(function (cb) { cb.closest('tr').remove(); });
+  });
+
+  // 비용부담 협력사 검색
+  document.getElementById('partnerSearchBtn').addEventListener('click', function () { openModal('partnerModal'); });
+  document.getElementById('partnerModalList').addEventListener('click', function (e) {
+    var row = e.target.closest('.row');
+    if (!row) return;
+    document.getElementById('costPartnerName').value = row.dataset.name;
+    closeModal('partnerModal');
+  });
+
+  // 저장/취소/발행
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+  }
+  document.getElementById('saveBtn').addEventListener('click', function () { showToast('저장되었습니다 (데모 동작, 서버 연동 없음)'); });
+  document.getElementById('issueBtn').addEventListener('click', function () { showToast('발행 처리되었습니다 (데모 동작, 서버 연동 없음)'); });
+  document.getElementById('cancelBtn').addEventListener('click', function () {
+    if (!confirm('변경 내용을 취소할까요?')) return;
+    var form = document.getElementById('couponForm');
+    form.reset();
+    form.querySelectorAll('input[type="radio"]').forEach(function (r) { r.dispatchEvent(new Event('change')); });
+  });
+})();
+</script>
+
+</body>
+</html>

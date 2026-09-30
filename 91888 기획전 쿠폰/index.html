@@ -119,6 +119,34 @@
   }
   .mockup img { max-width: 100%; border-radius: 6px; display: block; }
 
+  .screen-body.full { display: block; }
+  .mockup.full-width {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+    min-height: 0;
+    display: block;
+  }
+  .mockup.full-width iframe {
+    width: 100%;
+    height: 720px;
+    border: none;
+    display: block;
+    background: #fff;
+  }
+  .mockup-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: #f7f8fa;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--sub);
+  }
+  .mockup-toolbar a { color: var(--accent); text-decoration: none; }
+  .mockup-toolbar a:hover { text-decoration: underline; }
+
   .notes { padding: 20px; }
   .notes h3 { margin: 0 0 12px; font-size: 13px; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
   .notes ol { margin: 0; padding-left: 20px; }
@@ -157,7 +185,7 @@
 
 <nav class="screen-index">
   <ol>
-    <li><a href="#screen-01">01. 화면명 미정</a></li>
+    <li><a href="#screen-01">01. 쿠폰관리 (AS-IS)</a></li>
   </ol>
 </nav>
 
@@ -165,28 +193,31 @@
 
   <section class="screen" id="screen-01">
     <div class="screen-header">
-      <div><span class="title">화면명 미정</span><span class="id">SCR-01</span></div>
-      <span class="badge">초안</span>
+      <div><span class="title">쿠폰관리 (AS-IS 관리자 화면)</span><span class="id">SCR-01</span></div>
+      <span class="badge">참고용</span>
     </div>
-    <div class="screen-body">
-      <div class="mockup">
-        <div class="mockup-placeholder">
-          목업/캡처 이미지 자리<br>
-          (assets/ 폴더에 이미지 넣고 &lt;img&gt; 태그로 교체)
+    <div class="screen-body full">
+      <div class="mockup full-width">
+        <div class="mockup-toolbar">
+          <span>기존 관리자페이지 쿠폰관리 화면을 HTML/CSS로 그대로 재현 + 동작 유추 적용</span>
+          <a href="screens/쿠폰관리.html" target="_blank" rel="noopener">새 창에서 보기 ↗</a>
         </div>
+        <iframe src="screens/쿠폰관리.html" loading="lazy"></iframe>
       </div>
       <div class="notes">
         <h3>화면 설명</h3>
         <ol>
-          <li>① 여기에 번호별 UI 요소 설명을 채운다.</li>
-          <li>② 목업 이미지 위 번호와 이 목록의 번호를 맞춘다.</li>
-          <li>③ 정책/조건이 있으면 조건을 명시한다.</li>
+          <li>① 이 화면은 91888 신규 기능의 목표 화면이 아니라, 기존 쿠폰관리 화면을 그대로 재현한 AS-IS 참고본이다. 기획전 전용 쿠폰 기능은 이 화면을 기반으로 별도 화면(SCR-02~)에서 설계한다.</li>
+          <li>② 발행횟수제한·쿠폰 총발급 수량·적용유효기간의 라디오는 선택된 쪽 입력만 활성화되도록 유추 구현했다.</li>
+          <li>③ 적용고객사의 전체/적용/제외 라디오에서 "전체"를 고르면 하단 고객사 목록·추가/삭제 버튼이 비활성화되도록 유추 구현했다.</li>
+          <li>④ 추가·검색 버튼의 팝업 목록은 실제 데이터 연동 없이 데모용 더미 값이다.</li>
+          <li>⑤ 쿠폰발행/저장/취소는 서버 연동 없이 화면 동작만 흉내 낸 것이다(토스트 메시지로 표시).</li>
         </ol>
       </div>
     </div>
     <div class="exceptions">
-      <strong>예외/분기</strong>
-      예외 케이스나 분기 조건이 있으면 여기에 기술한다. 없으면 이 블록은 삭제한다.
+      <strong>확인 필요 (원본 스크린샷에서 유추한 부분)</strong>
+      할인유형(정액/정률)에 따라 적용조건의 단위(원/%) 표시가 실제로 전환되는지, 적용범위(마스터카테고리/상품)를 선택했을 때 하단에 별도 선택 UI가 나타나는지, 쿠폰발행 및 현황 탭의 실제 구성은 스크린샷에 없어 확인하지 못했다.
     </div>
   </section>
 
