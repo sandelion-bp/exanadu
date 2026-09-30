@@ -10,6 +10,26 @@
   - `README.md` — 문서 상태, Notion/Obsidian 등 관련 문서 링크
   - 필요 시 `assets/` — 목업 이미지, 참고 캡처 등
 - SB의 요구사항·정책·개발 범위 등 원문 근거는 이 저장소가 아니라 Notion PRD·Obsidian Vault 프로젝트 문서를 원본으로 하며, 이 저장소는 화면 설계 산출물(구현체)만 관리한다.
+- SB 화면은 "이미지 + 옆에 설명 텍스트" 방식이 아니라, 실제 구현된 것처럼 보이는 화면 자체를 만들고 그 위에 변경사항 마커를 얹는 방식으로 만든다. 마커·설명 팝업은 공용 컴포넌트 `_shared/sb-annotate/`를 사용한다.
+
+## 공용 컴포넌트 — `_shared/sb-annotate/`
+
+화면에 "변경사항 마커 + 설명 팝업"을 붙이는 공용 스크립트. 평소엔 화면에 아무 흔적이 없다가 우측 하단 플로팅 버튼을 누르면 변경된 요소 옆에 점(마커)이 나타나고, 마커를 클릭하면 설명 팝업이 뜬다. 번호나 별도 목록 패널은 없다 — 마커+팝업만으로 충분하다는 판단.
+
+사용법(각 화면 HTML에 추가):
+
+```html
+<link rel="stylesheet" href="../../_shared/sb-annotate/sb-annotate.css">
+...
+<script src="../../_shared/sb-annotate/sb-annotate.js"></script>
+<script>
+  SBAnnotate.init([
+    { target: '#someId', title: '변경 제목', body: '설명 내용' }
+  ]);
+</script>
+```
+
+`target`은 CSS 셀렉터 하나로 요소를 정확히 집어야 한다. **`<td>`·`<tr>`·`<table>` 자체를 target으로 쓰면 안 된다** — 마커가 해당 요소 바로 뒤에 형제 노드로 끼워지는데, 표 구조상 `<tr>` 밑에는 `<td>`만 올 수 있어 브라우저가 마커를 표 밖으로 밀어낸다(foster parenting). 셀 안의 특정 입력/버튼/래퍼 요소에 `id`를 붙여 그걸 target으로 쓴다.
 
 ## 프로젝트 목록
 

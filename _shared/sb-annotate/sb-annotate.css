@@ -1,0 +1,106 @@
+.sba-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: #23262b;
+  color: #fff;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .28);
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s ease, transform .15s ease;
+}
+.sba-fab:hover { transform: scale(1.06); }
+.sba-fab.sba-active { background: #2f6fed; }
+.sba-fab .sba-count {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #e0392c;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.sba-marker {
+  display: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2f6fed;
+  box-shadow: 0 0 0 2px #fff, 0 1px 3px rgba(0, 0, 0, .35);
+  margin-left: 5px;
+  vertical-align: middle;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+html.sba-mode-on .sba-marker { display: inline-block; }
+html.sba-mode-on .sba-marker { animation: sba-pulse 1.6s ease-in-out infinite; }
+
+@keyframes sba-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px #fff, 0 1px 3px rgba(0, 0, 0, .35); }
+  50% { box-shadow: 0 0 0 2px #fff, 0 0 0 5px rgba(47, 111, 237, .28); }
+}
+
+html.sba-mode-on .sba-target {
+  outline: 2px solid #2f6fed;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.sba-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 30, .4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483200;
+}
+.sba-popup-overlay[hidden] { display: none; }
+.sba-popup {
+  background: #fff;
+  width: 380px;
+  max-width: 90vw;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+  overflow: hidden;
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+}
+.sba-popup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #2f6fed;
+  color: #fff;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.sba-popup-head .sba-popup-close { cursor: pointer; font-size: 16px; line-height: 1; }
+.sba-popup-body {
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #23262b;
+  max-height: 50vh;
+  overflow-y: auto;
+  white-space: pre-line;
+}
