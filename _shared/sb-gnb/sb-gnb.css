@@ -107,3 +107,8 @@
   color: #9aa4b2;
 }
 .sb-gnb-current-label b { color: #e7eaf0; font-weight: 600; }
+
+@media print {
+  /* GNB는 SB 작업용 내비게이션일 뿐 실제 화면 내용이 아니므로 PDF에는 넣지 않는다 */
+  .sb-gnb { display: none !important; }
+}

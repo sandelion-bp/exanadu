@@ -87,7 +87,9 @@
   }
 
   .screens-list { display: flex; flex-direction: column; gap: 10px; }
+  .screens-row { display: flex; align-items: stretch; gap: 10px; }
   .screens-link {
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -103,6 +105,23 @@
   .screens-link .name { font-weight: 700; font-size: 14px; }
   .screens-link .sub { color: var(--sub); font-size: 12px; margin-top: 2px; }
   .screens-link .arrow { color: var(--accent); font-size: 18px; }
+
+  .pdf-btn {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 76px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--sub);
+    font-size: 13px;
+    font-weight: 600;
+    gap: 4px;
+  }
+  .pdf-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 </style>
 </head>
@@ -177,13 +196,16 @@
   <section>
     <h2>화면설계</h2>
     <div class="screens-list">
-      <a class="screens-link" href="screens/쿠폰관리.html">
-        <div>
-          <div class="name">쿠폰관리</div>
-          <div class="sub">요구사항 1·7 구현. 나머지는 다른 화면에서 다룰 예정</div>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+      <div class="screens-row">
+        <a class="screens-link" href="screens/쿠폰관리.html">
+          <div>
+            <div class="name">쿠폰관리</div>
+            <div class="sub">요구사항 1·7 구현. 나머지는 다른 화면에서 다룰 예정</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="pdf-btn" href="screens/쿠폰관리.html?print=1" target="_blank" rel="noopener" title="PDF로 다운로드">⬇ PDF</a>
+      </div>
     </div>
   </section>
 

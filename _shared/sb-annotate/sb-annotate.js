@@ -85,12 +85,15 @@
     }
     function closePopup() { popupOverlay.hidden = true; }
 
-    items.forEach(function (it) {
+    items.forEach(function (it, idx) {
       var target = document.querySelector(it.target);
       target.classList.add('sba-target');
       var marker = document.createElement('span');
       marker.className = 'sba-marker';
       marker.title = it.title;
+      // 평소엔 점(화면용, 글자는 CSS로 숨김), 인쇄 모드에서만 이 번호가 보인다 —
+      // 인쇄물은 클릭할 수 없으니 화면 위 번호 ↔ 아래 디스크립션 목록을 연결할 식별자가 필요해서다.
+      marker.textContent = String(idx + 1);
       marker.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -98,6 +101,37 @@
       });
       target.insertAdjacentElement('afterend', marker);
     });
+
+    // 인쇄(다운로드) 전용: 화면 밖에선 숨겨져 있다가 @media print에서만 나타나는
+    // 디스크립션 전체 목록. 화면과 설명을 동시에 한 페이지에 넣을 수 없으니
+    // "화면 먼저, 그 아래에 번호로 연결된 설명 목록"으로 순서대로 배치한다.
+    var printList = document.createElement('section');
+    printList.className = 'sba-print-list';
+    var printHeading = document.createElement('h2');
+    printHeading.className = 'sba-print-list-title';
+    printHeading.textContent = '디스크립션';
+    printList.appendChild(printHeading);
+    items.forEach(function (it, idx) {
+      var item = document.createElement('div');
+      item.className = 'sba-print-item';
+      var head = document.createElement('div');
+      head.className = 'sba-print-item-head';
+      var num = document.createElement('span');
+      num.className = 'sba-print-num';
+      num.textContent = String(idx + 1);
+      var title = document.createElement('span');
+      title.className = 'sba-print-title';
+      title.textContent = it.title;
+      head.appendChild(num);
+      head.appendChild(title);
+      item.appendChild(head);
+      var body = document.createElement('div');
+      body.className = 'sba-print-item-body';
+      renderBody(body, it.body);
+      item.appendChild(body);
+      printList.appendChild(item);
+    });
+    document.body.appendChild(printList);
 
     var active = false;
     function setActive(v) {
@@ -107,6 +141,14 @@
       if (!active) closePopup();
     }
     fab.addEventListener('click', function () { setActive(!active); });
+
+    // ?print=1로 열리면(다운로드 버튼이 여는 방식) 인쇄 대화상자를 자동으로 띄운다.
+    // 레이아웃·폰트가 자리잡을 시간을 조금 준 뒤 실행한다.
+    if (new URLSearchParams(location.search).get('print') === '1') {
+      window.addEventListener('load', function () {
+        setTimeout(function () { window.print(); }, 350);
+      });
+    }
 
     return { setActive: setActive };
   }
