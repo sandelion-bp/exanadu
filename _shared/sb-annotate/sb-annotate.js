@@ -24,7 +24,7 @@
     fab.className = 'sba-fab';
     fab.setAttribute('aria-label', '디스크립션 보기 전환');
     fab.title = '디스크립션 보기';
-    fab.innerHTML = '<span class="sba-fab-icon">💬</span><span class="sba-fab-label">디스크립션</span><span class="sba-count">' + items.length + '</span>';
+    fab.innerHTML = '<span class="sba-fab-icon">✎</span><span class="sba-fab-label">디스크립션</span><span class="sba-count">' + items.length + '</span>';
     document.body.appendChild(fab);
 
     var popupOverlay = document.createElement('div');
