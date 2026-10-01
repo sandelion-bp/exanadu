@@ -62,7 +62,7 @@
 <main>
   <h2>프로젝트</h2>
   <div class="project-list">
-    <a class="project-card" href="./91888 기획전 쿠폰/index.html">
+    <a class="project-card" data-redmine="91888" href="./91888 기획전 쿠폰/index.html">
       <div>
         <div class="code">91888</div>
         <div class="name">기획전 전용 할인쿠폰</div>
@@ -71,6 +71,17 @@
     </a>
   </div>
 </main>
+
+<script>
+  // ?redmine=91888 같은 쿼리로 들어오면 해당 프로젝트로 바로 이동한다.
+  // 새 프로젝트 카드를 추가할 때 data-redmine 속성만 같이 넣으면 자동으로 동작한다(별도 목록 관리 불필요).
+  (function () {
+    var redmine = new URLSearchParams(location.search).get('redmine');
+    if (!redmine) return;
+    var card = document.querySelector('.project-card[data-redmine="' + redmine + '"]');
+    if (card) location.replace(card.getAttribute('href'));
+  })();
+</script>
 
 </body>
 </html>
