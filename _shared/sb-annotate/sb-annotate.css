@@ -2,28 +2,28 @@
   position: fixed;
   right: 20px;
   bottom: 20px;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+  height: 42px;
+  padding: 0 14px 0 13px;
+  border-radius: 21px;
   border: none;
   background: #23262b;
   color: #fff;
-  font-size: 19px;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .28);
   z-index: 2147483000;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 7px;
   transition: background .15s ease, transform .15s ease;
 }
-.sba-fab:hover { transform: scale(1.06); }
+.sba-fab:hover { transform: scale(1.04); }
 .sba-fab.sba-active { background: #2f6fed; }
+.sba-fab-icon { font-size: 15px; }
+.sba-fab-label { white-space: nowrap; }
 .sba-fab .sba-count {
-  position: absolute;
-  top: -3px;
-  right: -3px;
   min-width: 17px;
   height: 17px;
   padding: 0 4px;
