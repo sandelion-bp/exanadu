@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/91888", "destination": "/91888 기획전 쿠폰/index.html" },
+    { "source": "/91888/:path*", "destination": "/91888 기획전 쿠폰/:path*" }
+  ]
+}
