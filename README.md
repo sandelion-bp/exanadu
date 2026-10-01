@@ -6,7 +6,8 @@
 
 - 프로젝트 1개 = 폴더 1개. 폴더명은 `{프로젝트 코드} {프로젝트명}` 형식을 따른다.
 - 각 프로젝트 폴더에는 다음을 둔다.
-  - `index.html` — SB(화면설계서) 본체
+  - `index.html` — 프로젝트 개요. Obsidian Vault PRD 내용(배경·요구사항 등)을 옮긴 스냅샷 + 실제 SB 화면(`screens/`) 링크. exanadu 루트로 돌아가는 링크 포함. PRD가 바뀌어도 자동 동기화되지 않으니 최신 요구사항은 Vault가 원본
+  - `screens/*.html` — 실제 SB 화면(화면설계서) 본체. 여기에 `_shared/sb-annotate`로 변경사항 마커를 붙인다
   - `README.md` — 문서 상태, Notion/Obsidian 등 관련 문서 링크
   - 필요 시 `assets/` — 목업 이미지, 참고 캡처 등
 - SB의 요구사항·정책·개발 범위 등 원문 근거는 이 저장소가 아니라 Notion PRD·Obsidian Vault 프로젝트 문서를 원본으로 하며, 이 저장소는 화면 설계 산출물(구현체)만 관리한다.
