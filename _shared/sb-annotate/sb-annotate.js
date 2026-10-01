@@ -39,9 +39,48 @@
     popupOverlay.addEventListener('click', function (e) { if (e.target === popupOverlay) closePopup(); });
     popupOverlay.querySelector('.sba-popup-close').addEventListener('click', closePopup);
 
+    var SECTION_CLASS = { Visible: 'sba-sec-visible', Action: 'sba-sec-action', Exception: 'sba-sec-exception' };
+
+    // body를 "[Visible]/[Action]/[Exception]" 섹션 헤더 + "- " 개조식 불릿으로 파싱해
+    // 섹션별로 구분되는 HTML로 렌더링한다. 섹션/불릿 형식이 아닌 줄은 평문 단락으로 둔다.
+    function renderBody(container, text) {
+      container.innerHTML = '';
+      var list = null;
+      (text || '').split('\n').forEach(function (raw) {
+        var line = raw.trim();
+        var sectionMatch = /^\[(Visible|Action|Exception)\]$/.exec(line);
+        if (sectionMatch) {
+          var label = document.createElement('div');
+          label.className = 'sba-section-label ' + SECTION_CLASS[sectionMatch[1]];
+          label.textContent = sectionMatch[1];
+          container.appendChild(label);
+          list = null;
+          return;
+        }
+        var bulletMatch = /^[-•]\s*(.+)$/.exec(line);
+        if (bulletMatch) {
+          if (!list) {
+            list = document.createElement('ul');
+            list.className = 'sba-bullet-list';
+            container.appendChild(list);
+          }
+          var li = document.createElement('li');
+          li.textContent = bulletMatch[1];
+          list.appendChild(li);
+          return;
+        }
+        if (!line) { list = null; return; }
+        var p = document.createElement('p');
+        p.className = 'sba-plain-line';
+        p.textContent = line;
+        container.appendChild(p);
+        list = null;
+      });
+    }
+
     function openPopup(it) {
       popupOverlay.querySelector('.sba-popup-title').textContent = it.title;
-      popupOverlay.querySelector('.sba-popup-body').textContent = it.body;
+      renderBody(popupOverlay.querySelector('.sba-popup-body'), it.body);
       popupOverlay.hidden = false;
     }
     function closePopup() { popupOverlay.hidden = true; }

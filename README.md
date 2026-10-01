@@ -24,12 +24,14 @@
 <script src="../../_shared/sb-annotate/sb-annotate.js"></script>
 <script>
   SBAnnotate.init([
-    { target: '#someId', title: '변경 제목', body: '설명 내용' }
+    { target: '#someId', title: '변경 제목', body: '[Visible]\n- 보이는 것\n[Action]\n- 사용자 행동 → 결과\n[Exception]\n- 예외 상황' }
   ]);
 </script>
 ```
 
 `target`은 CSS 셀렉터 하나로 요소를 정확히 집어야 한다. **`<td>`·`<tr>`·`<table>` 자체를 target으로 쓰면 안 된다** — 마커가 해당 요소 바로 뒤에 형제 노드로 끼워지는데, 표 구조상 `<tr>` 밑에는 `<td>`만 올 수 있어 브라우저가 마커를 표 밖으로 밀어낸다(foster parenting). 셀 안의 특정 입력/버튼/래퍼 요소에 `id`를 붙여 그걸 target으로 쓴다.
+
+`body`는 `[Visible]`·`[Action]`·`[Exception]` 섹션 헤더(각자 한 줄)와 그 아래 `- `로 시작하는 개조식 불릿으로 쓴다. sb-annotate가 이 형식을 자동으로 파싱해 섹션별로 색이 다른 라벨 + 목록으로 렌더링한다(형식에 안 맞는 줄은 그냥 평문 단락으로 보여준다). 섹션은 필요한 것만 쓰고, 화면만 봐도 명백한 내용은 적지 않는다 — 작성 규칙 상세는 [[SB 디스크립션 작성 가이드]] 참고.
 
 ## 공용 컴포넌트 — `_shared/sb-gnb/`
 

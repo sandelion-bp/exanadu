@@ -98,9 +98,29 @@ html.sba-mode-on .sba-target {
 .sba-popup-body {
   padding: 14px;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #23262b;
   max-height: 50vh;
   overflow-y: auto;
-  white-space: pre-line;
 }
+
+.sba-section-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin: 12px 0 6px;
+}
+.sba-section-label:first-child { margin-top: 0; }
+.sba-sec-visible { background: #eaf1ff; color: #2f6fed; }
+.sba-sec-action { background: #e9f7ee; color: #16a34a; }
+.sba-sec-exception { background: #fdeceb; color: #e0392c; }
+
+.sba-bullet-list { margin: 0 0 4px; padding-left: 18px; }
+.sba-bullet-list li { margin-bottom: 5px; }
+.sba-bullet-list li::marker { color: #9aa4b2; }
+
+.sba-plain-line { margin: 0 0 8px; white-space: pre-line; }
