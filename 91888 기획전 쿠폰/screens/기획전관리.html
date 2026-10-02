@@ -539,85 +539,101 @@
             <th class="field-label optional">적용 쿠폰</th>
             <td class="field-value">
               <span class="grid-toolbar">
+                <button type="button" class="btn tiny" id="delCouponBtn">기획전에서 제외</button>
                 <button type="button" class="btn tiny" id="refreshCouponBtn">새로고침</button>
                 <button type="button" class="btn tiny" id="excelCouponBtn">엑셀다운로드</button>
                 <span class="count" id="couponCount">(총 6 건 / 등록 <em>6</em>건 고정)</span>
               </span>
               <table class="data-grid">
                 <colgroup>
-                  <col style="width:92px"><col style="width:auto"><col style="width:120px">
-                  <col style="width:158px"><col style="width:74px"><col style="width:180px"><col style="width:84px">
+                  <col style="width:46px"><col style="width:86px"><col style="width:auto"><col style="width:118px">
+                  <col style="width:150px"><col style="width:70px"><col style="width:72px"><col style="width:176px"><col style="width:78px">
                 </colgroup>
                 <thead>
                   <tr>
+                    <th>선택</th>
                     <th>쿠폰번호</th>
                     <th>쿠폰명</th>
                     <th>할인</th>
                     <th>발행기간</th>
                     <th>발행상태</th>
+                    <th>발급</th>
                     <th>기획전 노출 정보</th>
                     <th>관리</th>
                   </tr>
                 </thead>
                 <tbody id="couponGridBody">
                   <tr>
+                    <td><input type="checkbox" disabled title="발급 이력이 있어 제외할 수 없습니다"></td>
                     <td>C-250901</td>
                     <td class="left">빅브랜드전 10% 할인쿠폰</td>
                     <td>정률 10% <span style="color:#999">(최대 10,000원)</span></td>
                     <td>2026-09-21 ~ 2026-10-31</td>
                     <td>발행중</td>
+                    <td>1,240건</td>
                     <td><span class="fo-chip" style="background:#2f6fed;color:#fff">첫 구매 쿠폰 · 10% 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250901">쿠폰 상세</button></td>
                   </tr>
                   <tr>
+                    <td><input type="checkbox" disabled title="발급 이력이 있어 제외할 수 없습니다"></td>
                     <td>C-250902</td>
                     <td class="left">빅브랜드전 5,000원 할인쿠폰</td>
                     <td>정액 5,000원</td>
                     <td>2026-09-21 ~ 2026-10-31</td>
                     <td>발행중</td>
+                    <td>860건</td>
                     <td><span class="fo-chip" style="background:#e2531c;color:#fff">5천원 할인 · 즉시할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250902">쿠폰 상세</button></td>
                   </tr>
                   <tr>
+                    <td><input type="checkbox"></td>
                     <td>C-250903</td>
                     <td class="left">주말 특가 3,000원 할인쿠폰</td>
                     <td>정액 3,000원</td>
                     <td>2026-10-01 ~ 2026-10-15</td>
                     <td>발행중</td>
+                    <td>0건</td>
                     <td><span class="fo-chip" style="background:#16a34a;color:#fff">주말 특가 · 3천원 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250903">쿠폰 상세</button></td>
                   </tr>
                   <tr>
+                    <td><input type="checkbox" disabled title="발급 이력이 있어 제외할 수 없습니다"></td>
                     <td>C-250904</td>
                     <td class="left">브랜드위크 추가할인 쿠폰</td>
                     <td>정률 7% <span style="color:#999">(최대 20,000원)</span></td>
                     <td>2026-09-21 ~ 2026-10-31</td>
                     <td>발행중</td>
+                    <td>320건</td>
                     <td><span class="fo-chip" style="background:#7c3aed;color:#fff">브랜드위크 추가할인 · 7% 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250904">쿠폰 상세</button></td>
                   </tr>
                   <tr>
+                    <td><input type="checkbox"></td>
                     <td>C-250905</td>
                     <td class="left">가을 마지막 세일 추가 할인쿠폰</td>
                     <td>정률 15% <span style="color:#999">(최대 30,000원)</span></td>
                     <td>2026-10-20 ~ 2026-10-31</td>
                     <td>발행대기</td>
+                    <td>0건</td>
                     <td><span class="fo-chip" style="background:#0f766e;color:#fff">가을 마지막 세일 추가… · 15% 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250905">쿠폰 상세</button></td>
                   </tr>
                   <tr>
+                    <td><input type="checkbox" disabled title="발급 이력이 있어 제외할 수 없습니다"></td>
                     <td>C-250906</td>
                     <td class="left">얼리버드 10,000원 할인쿠폰</td>
                     <td>정액 10,000원</td>
                     <td>2026-09-21 ~ 2026-09-30</td>
                     <td>발행완료</td>
+                    <td>2,000건</td>
                     <td><span class="fo-chip" style="background:#dfe3e8;color:#70767d">얼리버드 1만원 · 1만원 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250906">쿠폰 상세</button></td>
                   </tr>
                 </tbody>
               </table>
               <p class="coupon-note" id="couponSyncNote">
-                쿠폰관리에서 적용대상(기획전)을 변경하거나 기획전 상품이 바뀌면 이 목록과 고객 화면에 <b>즉시 반영</b>됩니다.
+                쿠폰관리에서 적용대상(기획전)을 변경하거나 기획전 상품이 바뀌면 이 목록과 고객 화면에 <b>즉시 반영</b>됩니다.<br>
+                <b>발급 이력이 있는 쿠폰은 제외할 수 없습니다.</b> 추가 발급만 막으려면 쿠폰관리에서 발행중지로 변경하세요.
               </p>
             </td>
           </tr>
@@ -1010,6 +1026,19 @@
   document.getElementById('refreshCouponBtn').addEventListener('click', function () {
     showToast('쿠폰 적용 현황을 다시 불러왔습니다 (즉시 반영)');
   });
+
+  // 기획전에서 제외 — 발급 이력이 0건인 쿠폰만 가능
+  var couponGridBody = document.getElementById('couponGridBody');
+  var couponCount = document.getElementById('couponCount');
+  document.getElementById('delCouponBtn').addEventListener('click', function () {
+    var checked = couponGridBody.querySelectorAll('input[type="checkbox"]:checked');
+    if (!checked.length) { showToast('제외할 쿠폰을 선택하세요 (발급 이력이 있는 쿠폰은 선택할 수 없습니다)'); return; }
+    if (!confirm('선택한 쿠폰 ' + checked.length + '건을 이 기획전에서 제외할까요?\n제외된 쿠폰은 발행대기 상태가 되며, 적용대상을 다시 지정하기 전까지 발행되지 않습니다.')) return;
+    checked.forEach(function (c) { c.closest('tr').remove(); });
+    var left = couponGridBody.querySelectorAll('tr').length;
+    couponCount.innerHTML = '(총 ' + left + ' 건 / 등록 <em>6</em>건 고정)';
+    showToast(checked.length + '건을 제외했습니다. 해당 쿠폰은 발행대기로 변경됩니다');
+  });
   document.getElementById('excelCouponBtn').addEventListener('click', function () {
     showToast('엑셀다운로드 — 이번 SB 범위 밖');
   });
@@ -1046,13 +1075,18 @@
   SBAnnotate.init([
     {
       target: '#couponSectionNote',
-      title: '기획전 쿠폰 섹션 신설 — 조회 전용 (요구사항 6)',
-      body: '[Visible]\n- 이 기획전에 적용된 쿠폰 목록을 기획전 관리 화면에서 바로 확인\n- 컬럼: 쿠폰번호·쿠폰명·할인·발행기간·발행상태·기획전 노출 정보\n- 섹션 위치는 노출 정보 바로 아래 — 전시내용 에디터를 지나지 않고 확인 가능\n[Exception]\n- 쿠폰 연결·해제는 쿠폰관리에서만 수행, 이 화면에서는 추가·삭제 불가\n- 기획전 1개당 쿠폰 최대 6개 (헤더에 건수/최대치 표기)'
+      title: '기획전 쿠폰 섹션 신설 (요구사항 6)',
+      body: '[Visible]\n- 이 기획전에 적용된 쿠폰 목록을 기획전 관리 화면에서 바로 확인\n- 컬럼: 쿠폰번호·쿠폰명·할인·발행기간·발행상태·발급건수·기획전 노출 정보\n- 섹션 위치는 노출 정보 바로 아래 — 전시내용 에디터를 지나지 않고 확인 가능\n[Exception]\n- 쿠폰을 기획전에 연결하는 것은 쿠폰관리에서만 수행 (이 화면에 추가 버튼 없음)\n- 이 화면에서는 잘못 연결된 쿠폰을 빼는 것만 가능'
     },
     {
       target: '#couponCount',
       title: '적용 쿠폰 건수 표기 (요구사항 1 연계)',
       body: '[Visible]\n- 기획전당 쿠폰은 6개 등록 고정\n- 발행중·발행대기·발행완료를 모두 포함해 6건을 센다\n[Exception]\n- 6건이 차면 쿠폰관리의 기획전 선택 팝업에서 이 기획전이 선택 불가로 표시됨\n- 발행완료 쿠폰도 자리를 차지하므로, 새 쿠폰을 넣으려면 기존 쿠폰의 적용대상을 먼저 해제해야 함\n- 두 화면의 기준값은 동일한 쿠폰 적용 데이터'
+    },
+    {
+      target: '#delCouponBtn',
+      title: '기획전에서 제외 — 발급 전에만 가능',
+      body: '[Action]\n- 체크 후 [기획전에서 제외] → 확인 팝업 → 목록에서 제거\n- 제외된 쿠폰은 발행대기 상태가 되고, 적용대상을 다시 지정하기 전까지 발행되지 않음\n[Visible]\n- 발급 이력이 있는 쿠폰은 체크박스 비활성 + 사유 툴팁\n[Exception]\n- 발급 이력 1건 이상이면 제외 불가 — 이미 받은 고객의 쿠폰이 사라지면 안 되기 때문\n- 추가 발급만 막으려면 쿠폰관리에서 발행중지로 변경 (칸은 유지되고 고객 화면에는 소진으로 노출)\n- 발급분 회수까지 필요한 경우에만 개발 요청'
     },
     {
       target: '#refreshCouponBtn',
