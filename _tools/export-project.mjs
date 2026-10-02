@@ -3,7 +3,11 @@
 
     node _tools/export-project.mjs "91888 기획전 쿠폰"
 
-  결과: _dist/{프로젝트}/ (index.html + 화면별 html이 한 폴더에 평면 배치) 와 _dist/{프로젝트}.zip
+  결과: _dist/{프로젝트}/ (중간 산출물, 커밋 안 함) 와 {프로젝트}/sb-bundle.zip (커밋 대상)
+
+  zip을 프로젝트 폴더 안에 두는 이유는 Vercel이 그대로 서빙해야 하기 때문이다 —
+  루트 index.html의 "HTML 다운로드" 버튼이 이 파일을 가리킨다.
+  **화면을 고치면 이 스크립트를 다시 돌려 zip을 같이 커밋해야 한다**(자동 재생성 아님).
 
   저장소 원본은 `_shared/`를 상대경로로 참조해서 파일만 떼어내면 깨진다. 그래서 전달용
   사본에서는 `_shared`의 CSS/JS를 각 HTML 안에 인라인으로 박아 외부 폴더 의존을 없애고,
@@ -76,10 +80,10 @@ for (const name of await readdir(path.join(ROOT, project, 'screens'))) {
 
 // bsdtar(Windows 10+ 기본 tar, macOS 기본 tar)는 zip 항목명을 UTF-8로 적어 한글 파일명이
 // 다른 OS에서 깨지지 않는다. PowerShell의 Compress-Archive는 그 보장이 없어 쓰지 않는다.
-const zip = `${outDir}.zip`;
+const zip = path.join(ROOT, project, 'sb-bundle.zip');
 await rm(zip, { force: true });
 const tar = process.platform === 'win32' ? 'C:\\Windows\\System32\\tar.exe' : 'tar';
 await execFileAsync(tar, ['-a', '-c', '-f', zip, ...written], { cwd: outDir });
 
 console.log(written.map((f) => `  _dist/${project}/${f}`).join('\n'));
-console.log(`\n압축: _dist/${path.basename(zip)}`);
+console.log(`\n압축(커밋 대상): ${project}/sb-bundle.zip`);

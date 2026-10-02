@@ -33,7 +33,9 @@
   main h2 { font-size: 13px; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 12px; }
 
   .project-list { display: flex; flex-direction: column; gap: 12px; }
+  .project-row { display: flex; align-items: stretch; gap: 12px; }
   a.project-card {
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -50,6 +52,25 @@
   .project-card .code { font-size: 12px; color: var(--sub); font-weight: 600; letter-spacing: .02em; }
   .project-card .name { font-size: 15px; font-weight: 700; margin-top: 2px; }
   .project-card .arrow { color: var(--accent); font-size: 18px; flex: 0 0 auto; }
+
+  a.download-btn {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 104px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--sub);
+    transition: border-color .15s ease, color .15s ease;
+  }
+  a.download-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .download-btn .icon { font-size: 15px; line-height: 1; }
+  .download-btn .label { font-size: 12px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -62,13 +83,22 @@
 <main>
   <h2>프로젝트</h2>
   <div class="project-list">
-    <a class="project-card" data-redmine="91888" href="./91888 기획전 쿠폰/index.html">
-      <div>
-        <div class="code">91888</div>
-        <div class="name">기획전 전용 할인쿠폰</div>
-      </div>
-      <span class="arrow">→</span>
-    </a>
+    <div class="project-row">
+      <a class="project-card" data-redmine="91888" href="./91888 기획전 쿠폰/index.html">
+        <div>
+          <div class="code">91888</div>
+          <div class="name">기획전 전용 할인쿠폰</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="download-btn"
+         href="./91888 기획전 쿠폰/sb-bundle.zip"
+         download="91888 기획전 전용 할인쿠폰 SB.zip"
+         title="프로젝트 전체(개요 + 모든 화면)를 HTML로 다운로드">
+        <span class="icon">⬇</span>
+        <span class="label">HTML</span>
+      </a>
+    </div>
   </div>
 </main>
 
