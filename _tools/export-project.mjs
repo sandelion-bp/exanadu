@@ -43,8 +43,23 @@ async function inlineShared(html) {
   }
 
   return html
-    .replace(linkRe, (_, href) => `<style>\n${assets.get(href).trim()}\n</style>\n`)
-    .replace(scriptRe, (_, href) => `<script>\n${assets.get(href).trim()}\n</script>\n`);
+    .replace(linkRe, (_, href) => `<style>\n${inlineCss(assets.get(href))}\n</style>\n`)
+    .replace(scriptRe, (_, href) => `<script>\n${inlineJs(assets.get(href))}\n</script>\n`);
+}
+
+// 공용 컴포넌트 JS는 사용법 주석 안에 `</script>` 문자열을 담고 있다. 그대로 인라인하면
+// HTML 파서가 그 지점에서 <script>를 끝내버려 나머지 소스가 본문에 텍스트로 쏟아진다.
+// JS에서 `<\/script`는 `</script`와 같은 의미이므로 끊기지 않게 쪼개 넣는다.
+function inlineJs(source) {
+  return source.trim().replace(/<\/(script)/gi, '<\\/$1');
+}
+
+// CSS에는 같은 방식의 안전한 이스케이프가 없어서, 끊길 내용이 있으면 조용히 깨뜨리지 않고 멈춘다.
+function inlineCss(source) {
+  if (/<\/style/i.test(source)) {
+    throw new Error('CSS에 </style> 문자열이 있어 인라인할 수 없다. 해당 구문을 먼저 제거할 것.');
+  }
+  return source.trim();
 }
 
 // 전달본에 있으면 안 되는 요소(저장소 루트로 돌아가는 링크 등)를 통째로 뺀다.
