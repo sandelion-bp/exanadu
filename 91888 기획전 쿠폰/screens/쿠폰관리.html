@@ -397,6 +397,9 @@ table.data-grid input[type=checkbox] { width:12px; height:12px; margin:0; }
 
 /* ── 기획전(91888 TO-BE) ───────────────────────── */
 #eventScopeRow[hidden], #eventCouponDisplayRow[hidden] { display: none; }
+.user-grid-viewport { height: 118px; border: 1px solid #9bbdff; overflow: auto; background: #fff; }
+#userGridWrap { padding: 0 22px 4px 5px; }
+#userGridWrap.off { opacity: .45; }
 .event-limit-note { color: #999; font-size: 11px; margin-left: 8px; }
 .modal-list .row.disabled { color: #aaa; cursor: not-allowed; background: #f7f7f7; }
 .modal-list .row.disabled:hover { background: #f7f7f7; }
@@ -694,6 +697,45 @@ input[type="color"] { width: 36px; height: 23px; padding: 1px; border: 1px solid
               </table></div>
             </td>
           </tr>
+          <tr>
+            <th class="field-label optional" rowspan="2">적용 유저</th>
+            <td class="field-value" colspan="3">
+              <label class="radio"><input type="radio" name="userScope" id="userAll" checked>고객사 전체 유저</label>
+              <label class="radio"><input type="radio" name="userScope" id="userSelected">지정 유저만</label>
+              <span class="issue-limit-note" id="userScopeNote">※위에서 선택한 적용고객사 안에서, 지정한 유저에게만 고객 화면의 쿠폰 다운로드 버튼이 노출된다.</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="field-value" colspan="3" id="userGridWrap">
+              <span class="company-toolbar">
+                <button type="button" class="btn small" id="uploadUserBtn">엑셀업로드</button>
+                <button type="button" class="btn small" id="formUserBtn">양식 다운로드</button>
+                <button type="button" class="btn small" id="addUserBtn">추가</button>
+                <button type="button" class="btn small" id="delUserBtn">삭제</button>
+                <span class="event-limit-note" id="userCount">(총 2 건)</span>
+              </span>
+              <div class="user-grid-viewport"><table class="data-grid">
+                <colgroup><col class="sel"><col class="code"><col style="width:180px"><col></colgroup>
+                <thead>
+                  <tr><th><input type="checkbox" id="selectAllUsers" aria-label="유저 전체 선택"> 선택</th><th>고객사번호</th><th>유저ID</th><th>이름</th></tr>
+                </thead>
+                <tbody id="userGridBody">
+                  <tr>
+                    <td><input type="checkbox"></td>
+                    <td>100</td>
+                    <td class="name">hong.gd</td>
+                    <td class="name">홍길동</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"></td>
+                    <td>100</td>
+                    <td class="name">kim.cs</td>
+                    <td class="name">김철수</td>
+                  </tr>
+                </tbody>
+              </table></div>
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -883,6 +925,44 @@ input[type="color"] { width: 36px; height: 23px; padding: 1px; border: 1px solid
   [eventBgColor, eventTextColor].forEach(function (el) { el.addEventListener('input', syncCouponPreview); });
   syncCouponPreview();
 
+  // 적용 유저 — "지정 유저만"일 때만 유저 목록 편집 가능 (요구사항 5)
+  var userGridWrap = document.getElementById('userGridWrap');
+  var userGridBody = document.getElementById('userGridBody');
+  var userCount = document.getElementById('userCount');
+  function syncUserScope() {
+    var off = document.getElementById('userAll').checked;
+    userGridWrap.classList.toggle('off', off);
+    userGridWrap.querySelectorAll('button, input').forEach(function (el) { el.disabled = off; });
+  }
+  document.querySelectorAll('input[name="userScope"]').forEach(function (r) {
+    r.addEventListener('change', syncUserScope);
+  });
+  syncUserScope();
+
+  function refreshUserCount() {
+    userCount.textContent = '(총 ' + userGridBody.querySelectorAll('tr').length + ' 건)';
+  }
+  document.getElementById('selectAllUsers').addEventListener('change', function () {
+    var on = this.checked;
+    userGridBody.querySelectorAll('input[type="checkbox"]').forEach(function (c) { c.checked = on; });
+  });
+  document.getElementById('delUserBtn').addEventListener('click', function () {
+    var checked = userGridBody.querySelectorAll('input[type="checkbox"]:checked');
+    if (!checked.length) { showToast('삭제할 유저를 선택하세요'); return; }
+    if (!confirm('선택한 유저를 적용 대상에서 삭제할까요?')) return;
+    checked.forEach(function (c) { c.closest('tr').remove(); });
+    refreshUserCount();
+  });
+  document.getElementById('addUserBtn').addEventListener('click', function () {
+    showToast('유저 검색 팝업 — 적용고객사에 속한 유저만 조회된다');
+  });
+  document.getElementById('uploadUserBtn').addEventListener('click', function () {
+    showToast('엑셀업로드 — 고객사번호·유저ID 기준으로 일괄 등록');
+  });
+  document.getElementById('formUserBtn').addEventListener('click', function () {
+    showToast('업로드 양식을 내려받는다');
+  });
+
   // 날짜 "10분 후 발행종료"
   document.getElementById('tenMinBtn').addEventListener('click', function () {
     var start = parseDateTime(document.getElementById('issueStart').value);
@@ -1014,7 +1094,12 @@ input[type="color"] { width: 36px; height: 23px; padding: 1px; border: 1px solid
     {
       target: '#eventCouponTitle',
       title: '기획전 노출 쿠폰 정보 — 현업 수기 입력 (요구사항 7)',
-      body: '[Visible]\n- 타이틀 + 쿠폰정보(정액/할인율) 문구 노출\n- 배경색상·텍스트색상 지정\n- 입력 즉시 갱신되는 미리보기\n[Action]\n- 현업이 타이틀·문구·색상 직접 입력/선택 → 미리보기 즉시 반영\n[Exception]\n- 서버 미연동, 데모 동작만'
+      body: '[Visible]\n- 타이틀(14자) + 쿠폰정보 문구(20자) 노출\n- 배경색상·텍스트색상 지정\n- 입력 즉시 갱신되는 미리보기\n[Action]\n- 현업이 타이틀·문구·색상 직접 입력/선택 → 미리보기 즉시 반영\n[Exception]\n- 고객 화면에서 타이틀·문구는 각각 1줄로 노출되고 넘치면 말줄임(…)\n- 카드 폭이 3열 고정이라 2줄 노출은 쓰지 않음'
+    },
+    {
+      target: '#userScopeNote',
+      title: '고객사 유저 단위 노출 대상 지정 (요구사항 5)',
+      body: '[Visible]\n- 적용 유저: "고객사 전체 유저" 또는 "지정 유저만" 선택\n- 지정 유저만 선택 시 유저 목록(고객사번호·유저ID·이름) 편집 활성화\n[Action]\n- 엑셀업로드로 일괄 등록, 양식 다운로드 제공\n- 추가 클릭 → 적용고객사에 속한 유저만 조회되는 검색 팝업\n[Exception]\n- 적용고객사 ∩ 적용유저 교집합이 실제 노출 대상\n- 대상이 아닌 유저에게는 고객 화면의 쿠폰 다운로드 버튼이 노출되지 않음\n- 화면만 숨기면 우회 가능하므로 발급 요청 자체도 서버에서 차단해야 함'
     }
   ]);
 </script>
