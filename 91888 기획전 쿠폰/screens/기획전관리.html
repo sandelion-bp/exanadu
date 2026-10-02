@@ -989,7 +989,7 @@
 
   // 미리보기 / 저장 / 취소
   document.getElementById('previewBtn').addEventListener('click', function () {
-    showToast('기획전 미리보기 — 고객 화면(FO)으로 이동');
+    window.open('기획전상세_FO.html', '_blank', 'noopener');
   });
   document.getElementById('saveBtn').addEventListener('click', function () {
     showToast('저장되었습니다');
@@ -1009,8 +1009,9 @@
     home: '../index.html',
     current: '기획전 등록/상세 (BO)',
     pages: [
-      { name: '쿠폰관리', path: '쿠폰관리.html' },
-      { name: '기획전 등록/상세 (BO)', path: '기획전관리.html' }
+      { name: '쿠폰관리 (BO)', path: '쿠폰관리.html' },
+      { name: '기획전 등록/상세 (BO)', path: '기획전관리.html' },
+      { name: '기획전 상세 (FO)', path: '기획전상세_FO.html' }
     ]
   });
 </script>

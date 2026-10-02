@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기획전 상세 (FO) — 제너두</title>
+<link rel="stylesheet" href="../../_shared/sb-annotate/sb-annotate.css">
+<link rel="stylesheet" href="../../_shared/sb-gnb/sb-gnb.css">
+<style>
+  :root {
+    --ink: #222;
+    --sub: #767b82;
+    --line: #e7e9ec;
+    --line-strong: #d4d8dd;
+    --brand: #0b9b8a;
+    --sale: #ff3d3d;
+    --page: #fff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    min-width: 1280px;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: 1200px; margin: 0 auto; }
+
+  /* ── 사이트 헤더 ───────────────────────── */
+  .util-bar { border-bottom: 1px solid var(--line); }
+  .util-bar .wrap { display: flex; justify-content: space-between; align-items: center; height: 32px; font-size: 12px; color: var(--sub); }
+  .util-bar .right { display: flex; gap: 14px; }
+
+  .head-main .wrap { display: flex; align-items: center; gap: 28px; height: 74px; }
+  .logo { display: flex; align-items: center; gap: 6px; font-size: 21px; font-weight: 800; color: var(--brand); white-space: nowrap; }
+  .logo .mark { font-size: 18px; }
+  .search-box { flex: 0 0 420px; display: flex; align-items: center; height: 38px; border: 2px solid var(--brand); border-radius: 3px; padding: 0 10px; }
+  .search-box input { flex: 1; border: none; outline: none; font-size: 13px; }
+  .search-box .ico { color: var(--brand); font-size: 15px; }
+  .head-util { margin-left: auto; display: flex; align-items: center; gap: 18px; color: var(--sub); font-size: 12px; }
+  .head-util .point-box { border: 1px solid var(--line-strong); border-radius: 4px; padding: 5px 10px; text-align: center; line-height: 1.3; }
+  .head-util .point-box b { color: var(--ink); }
+  .head-util .ico-btn { position: relative; font-size: 18px; color: #555; }
+  .head-util .ico-btn .badge {
+    position: absolute; top: -5px; right: -7px;
+    min-width: 15px; height: 15px; padding: 0 4px;
+    background: var(--sale); color: #fff; border-radius: 8px;
+    font-size: 10px; line-height: 15px; text-align: center; font-weight: 700;
+  }
+
+  .gnb { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line-strong); }
+  .gnb .wrap { display: flex; align-items: center; height: 42px; gap: 22px; }
+  .gnb .cat { font-size: 14px; font-weight: 700; }
+  .gnb .cat.on { color: var(--brand); }
+  .gnb .promo { margin-left: auto; display: flex; gap: 12px; align-items: center; font-size: 12px; font-weight: 700; }
+  .gnb .promo .hot { color: #e8380d; }
+  .gnb .promo .only { color: #1a56db; }
+
+  /* ── 대형 배너 ───────────────────────── */
+  .event-hero { background: #000; }
+  .hero-banner {
+    height: 300px;
+    background:
+      radial-gradient(circle at 22% 35%, rgba(126, 61, 219, .75), transparent 46%),
+      radial-gradient(circle at 78% 30%, rgba(26, 86, 219, .7), transparent 44%),
+      linear-gradient(160deg, #2a0b4d 0%, #140a33 55%, #0b0620 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; color: #fff; text-align: center;
+  }
+  .hero-banner .lead { font-size: 14px; letter-spacing: .02em; color: #d8c8ff; }
+  .hero-banner .title {
+    font-size: 62px; font-weight: 900; letter-spacing: -.02em; line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 10px #c07bff, 0 0 26px #8a2be2, 0 0 50px #5a1fb0;
+  }
+  .hero-banner .title em { font-style: normal; color: #ffe14d; text-shadow: 0 0 12px #ffb300, 0 0 32px #ff8f00; }
+  .hero-banner .cta {
+    margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 30px; border-radius: 22px;
+    background: linear-gradient(90deg, #e0218a, #b31478);
+    color: #fff; font-size: 15px; font-weight: 800;
+  }
+  .hero-notice { padding: 18px 0 24px; color: #cfd3da; font-size: 12.5px; text-align: center; line-height: 1.9; }
+
+  /* ── 쿠폰 영역 (91888 TO-BE) ───────────────────────── */
+  .coupon-zone { padding: 30px 0 4px; }
+  .coupon-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .coupon-head .ttl { display: flex; align-items: baseline; gap: 8px; font-size: 18px; font-weight: 800; }
+  .coupon-head .ttl .cnt { font-size: 13px; font-weight: 700; color: var(--sale); }
+  .coupon-head .ttl .period { font-size: 12px; font-weight: 400; color: var(--sub); }
+  .btn-download-all {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 36px; padding: 0 18px;
+    border: 1px solid var(--ink); border-radius: 18px;
+    background: var(--ink); color: #fff;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .btn-download-all:hover { background: #000; }
+  .btn-download-all:disabled { background: #f2f3f5; border-color: var(--line-strong); color: #a8adb4; cursor: default; }
+
+  .coupon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .coupon-card {
+    position: relative;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    min-height: 92px; padding: 16px 18px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .coupon-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+  /* 쿠폰 모양의 좌우 홈 */
+  .coupon-card::before, .coupon-card::after {
+    content: ""; position: absolute; top: 50%; width: 16px; height: 16px;
+    background: var(--page); border-radius: 50%; transform: translateY(-50%);
+  }
+  .coupon-card::before { left: -8px; }
+  .coupon-card::after { right: -8px; }
+  .coupon-card .info { min-width: 0; }
+  .coupon-card .c-title { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
+  .coupon-card .c-desc { font-size: 13px; opacity: .95; }
+  .coupon-card .c-period { margin-top: 7px; font-size: 11.5px; opacity: .8; }
+  .coupon-card .act {
+    flex: 0 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    width: 44px;
+  }
+  .coupon-card .act .ico { font-size: 22px; line-height: 1; }
+  .coupon-card .act .txt { font-size: 11px; font-weight: 700; }
+
+  .coupon-card.done { cursor: default; }
+  .coupon-card.done .info, .coupon-card.done .act { opacity: .45; }
+  .coupon-card.done:hover { transform: none; box-shadow: none; }
+  .coupon-card.ended {
+    background: #eceef1 !important; color: #9aa0a7 !important; cursor: default;
+  }
+  .coupon-card.ended:hover { transform: none; box-shadow: none; }
+
+  .coupon-note { margin: 12px 0 0; color: var(--sub); font-size: 12px; line-height: 1.8; }
+
+  /* ── 상품 보기 ───────────────────────── */
+  .view-products { display: flex; justify-content: center; padding: 26px 0 30px; }
+  .view-products button {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 38px; padding: 0 26px;
+    border: 1px solid var(--line-strong); border-radius: 19px;
+    background: #fff; color: #444; font-size: 13.5px; cursor: pointer;
+  }
+
+  /* ── 결제 혜택 ───────────────────────── */
+  .pay-benefit { border: 1px solid var(--line); border-radius: 6px; padding: 20px 24px 24px; }
+  .pay-benefit .pb-head { display: flex; align-items: center; justify-content: space-between; }
+  .pay-benefit .pb-head .t { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; }
+  .pay-benefit .pb-head .t .ico { color: #1a56db; }
+  .pay-benefit .pb-sub { margin: 16px 0 12px; color: var(--sub); font-size: 12.5px; }
+  .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 20px; }
+  .card-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .card-chip .cl {
+    flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 10px; font-weight: 800;
+  }
+  .card-chip .nm { font-weight: 700; }
+  .card-chip .mo { color: var(--sub); }
+
+  /* ── 카테고리 탭 / 목록 컨트롤 ───────────────────────── */
+  .cat-tabs { margin-top: 34px; border-bottom: 1px solid var(--line-strong); display: flex; align-items: center; gap: 4px; }
+  .cat-tabs button {
+    height: 44px; padding: 0 22px;
+    border: none; background: none; cursor: pointer;
+    font-size: 14px; color: var(--sub);
+  }
+  .cat-tabs button.on { color: var(--ink); font-weight: 800; box-shadow: inset 0 -2px 0 var(--ink); }
+  .cat-tabs .nav-arrow { color: #b9bec4; padding: 0 6px; }
+  .cat-tabs .view-toggle { margin-left: auto; color: #9aa0a7; font-size: 15px; }
+
+  .list-controls { display: flex; align-items: center; gap: 16px; padding: 16px 0 22px; }
+  .list-controls .total { font-size: 12.5px; color: var(--sub); }
+  .list-controls .total b { color: var(--ink); }
+  .list-controls .in-search { flex: 0 0 300px; display: flex; align-items: center; height: 32px; border: 1px solid var(--line-strong); border-radius: 16px; padding: 0 12px; }
+  .list-controls .in-search input { flex: 1; border: none; outline: none; font-size: 12px; }
+  .list-controls .sorts { margin-left: auto; display: flex; gap: 10px; font-size: 12px; color: var(--sub); }
+  .list-controls .sorts .on { color: var(--ink); font-weight: 700; }
+
+  /* ── 상품 목록 ───────────────────────── */
+  .sec-title { display: flex; align-items: baseline; gap: 8px; margin: 26px 0 16px; font-size: 17px; font-weight: 800; }
+  .sec-title .cnt { font-size: 12.5px; font-weight: 400; color: var(--sub); }
+  .prod-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px 20px; }
+  .prod-card .thumb {
+    position: relative;
+    aspect-ratio: 1 / 1; border-radius: 4px; overflow: hidden;
+    background: linear-gradient(135deg, #eef1f4, #dfe4e9);
+    display: flex; align-items: center; justify-content: center;
+    color: #aeb5bc; font-size: 11px;
+  }
+  .prod-card .thumb .tag {
+    position: absolute; top: 8px; left: 8px;
+    background: rgba(0,0,0,.62); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px;
+  }
+  .prod-card .seller { margin-top: 10px; font-size: 11px; color: #9aa0a7; }
+  .prod-card .pname {
+    margin-top: 3px; font-size: 12.5px; line-height: 1.45; color: #333;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .prod-card .was { margin-top: 8px; font-size: 11px; color: #b4b9bf; text-decoration: line-through; }
+  .prod-card .now { display: flex; align-items: baseline; gap: 6px; margin-top: 2px; }
+  .prod-card .now .rate { color: var(--sale); font-size: 15px; font-weight: 800; }
+  .prod-card .now .price { font-size: 15px; font-weight: 800; }
+  .prod-card .flag { display: inline-block; margin-top: 7px; border: 1px solid var(--line-strong); color: var(--sub); font-size: 10px; padding: 1px 5px; border-radius: 2px; }
+
+  /* ── 푸터 / 퀵메뉴 ───────────────────────── */
+  footer.site-foot { margin-top: 60px; border-top: 1px solid var(--line-strong); background: #fafbfc; }
+  footer.site-foot .wrap { padding: 26px 0 40px; color: var(--sub); font-size: 11.5px; line-height: 1.9; }
+  footer.site-foot .f-top { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; }
+  footer.site-foot .f-top .logo { font-size: 17px; }
+  footer.site-foot .f-top a { font-size: 12px; color: #555; }
+
+  .quick-menu {
+    position: fixed; right: 18px; top: 150px;
+    width: 72px; border: 1px solid var(--line-strong); border-radius: 6px;
+    background: #fff; text-align: center; font-size: 11px; color: #666;
+    z-index: 30;
+  }
+  .quick-menu .qm-top { background: #e8380d; color: #fff; font-weight: 800; padding: 8px 4px; line-height: 1.3; }
+  .quick-menu .qm-item { padding: 9px 4px; border-top: 1px solid var(--line); }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 44px;
+    transform: translateX(-50%) translateY(20px);
+    background: #23262b; color: #fff;
+    padding: 11px 22px; border-radius: 4px; font-size: 13px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="util-bar">
+  <div class="wrap">
+    <span>안녕하세요, <b>박장훈</b>님</span>
+    <span class="right">
+      <a href="#">선물하기</a><a href="#">이용안내</a><a href="#">고객센터</a><a href="#">관리자</a>
+    </span>
+  </div>
+</div>
+
+<div class="head-main">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="mark">❧</span>제너두</a>
+    <div class="search-box">
+      <input type="text" aria-label="검색어 입력">
+      <span class="ico">⌕</span>
+    </div>
+    <div class="head-util">
+      <div class="point-box">보유 포인트<br><b>12,500 P</b></div>
+      <a class="ico-btn" href="#" title="마이페이지">☺</a>
+      <a class="ico-btn" href="#" title="장바구니">🛒<span class="badge">2</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="gnb">
+  <div class="wrap">
+    <a class="cat on" href="#">복지쇼핑</a>
+    <a class="cat" href="#">나이트샵</a>
+    <a class="cat" href="#">숙박</a>
+    <a class="cat" href="#">여행/레저</a>
+    <a class="cat" href="#">자기계발</a>
+    <a class="cat" href="#">문화생활</a>
+    <a class="cat" href="#">건강관리</a>
+    <a class="cat" href="#">기프티콘</a>
+    <span class="promo">
+      <a class="hot" href="#">🔥 할인쿠폰</a>
+      <a href="#">월말할인 특가</a>
+      <a href="#">신규특가</a>
+      <a href="#">베스트</a>
+      <a class="only" href="#">제너두 Only</a>
+    </span>
+  </div>
+</nav>
+
+<!-- ───────── 대형 배너 ───────── -->
+<div class="event-hero">
+  <div class="hero-banner">
+    <div class="lead">단 7일간! 매주 새로운 상품 마법같은 특가</div>
+    <div class="title">7<em>DAYS</em> 특가</div>
+    <a class="cta" href="#">역대급 Super Sale! 이달의 파워특가 보러가기 ›</a>
+  </div>
+  <div class="hero-notice wrap">
+    - 매주 월요일 오전 11시부터 일주일간 진행되는 특가입니다.<br>
+    - 진행 도중 부득이하게 다른 상품으로 대체될 수 있습니다.<br>
+    - 월요일이 공휴일 경우 다음 영업일에 업데이트 됩니다.
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ───────── TO-BE: 기획전 쿠폰 (요구사항 2·5·7) ───────── -->
+  <section class="coupon-zone" id="couponZone">
+    <div class="coupon-head">
+      <div class="ttl" id="couponZoneTitle">
+        기획전 쿠폰
+        <span class="cnt" id="couponAvailCount">받을 수 있는 쿠폰 3장</span>
+        <span class="period">쿠폰 사용기간 : 2026-10-31까지</span>
+      </div>
+      <button type="button" class="btn-download-all" id="downloadAllBtn">
+        <span>⬇</span> 쿠폰 전체 다운로드
+      </button>
+    </div>
+
+    <div class="coupon-grid" id="couponGrid">
+      <div class="coupon-card" style="background:#2f6fed" data-name="첫 구매 쿠폰">
+        <div class="info">
+          <div class="c-title">첫 구매 쿠폰</div>
+          <div class="c-desc">10% 할인 (최대 10,000원)</div>
+          <div class="c-period">2026-10-31까지</div>
+        </div>
+        <div class="act"><span class="ico">⬇</span><span class="txt">받기</span></div>
+      </div>
+
+      <div class="coupon-card" style="background:#e2531c" data-name="5천원 할인">
+        <div class="info">
+          <div class="c-title">5천원 할인</div>
+          <div class="c-desc">5,000원 즉시할인</div>
+          <div class="c-period">2026-10-31까지</div>
+        </div>
+        <div class="act"><span class="ico">⬇</span><span class="txt">받기</span></div>
+      </div>
+
+      <div class="coupon-card" style="background:#16a34a" data-name="주말 특가">
+        <div class="info">
+          <div class="c-title">주말 특가</div>
+          <div class="c-desc">3,000원 할인</div>
+          <div class="c-period">2026-10-15까지</div>
+        </div>
+        <div class="act"><span class="ico">⬇</span><span class="txt">받기</span></div>
+      </div>
+
+      <div class="coupon-card done" style="background:#7c3aed" data-name="브랜드위크 추가할인">
+        <div class="info">
+          <div class="c-title">브랜드위크 추가할인</div>
+          <div class="c-desc">7% 할인 (최대 20,000원)</div>
+          <div class="c-period">2026-10-31까지</div>
+        </div>
+        <div class="act"><span class="ico">✓</span><span class="txt">받음</span></div>
+      </div>
+
+      <div class="coupon-card ended" data-name="얼리버드 1만원">
+        <div class="info">
+          <div class="c-title">얼리버드 1만원</div>
+          <div class="c-desc">10,000원 할인</div>
+          <div class="c-period">수량 소진</div>
+        </div>
+        <div class="act"><span class="ico">✕</span><span class="txt">종료</span></div>
+      </div>
+    </div>
+
+    <p class="coupon-note" id="couponNote">
+      · 쿠폰은 기획전 내 상품에만 적용되며, 기획전 상품이 변경되면 적용 대상도 함께 변경됩니다.<br>
+      · 다운로드한 쿠폰은 마이페이지 &gt; 쿠폰함에서 확인할 수 있습니다.
+    </p>
+  </section>
+
+  <div class="view-products">
+    <button type="button">상품 보기 <span>⌄</span></button>
+  </div>
+
+  <!-- ───────── 결제 혜택 ───────── -->
+  <section class="pay-benefit">
+    <div class="pb-head">
+      <div class="t"><span class="ico">💳</span> 결제 혜택</div>
+      <span style="color:#9aa0a7">⌃</span>
+    </div>
+    <div class="pb-sub">신용카드 무이자 혜택</div>
+    <div class="card-grid" id="cardGrid"></div>
+  </section>
+
+  <!-- ───────── 카테고리 탭 ───────── -->
+  <div class="cat-tabs">
+    <span class="nav-arrow">‹</span>
+    <button type="button" class="on">복지쇼핑</button>
+    <button type="button">제너두 숙박 특가</button>
+    <button type="button">자기계발</button>
+    <button type="button">건강관리</button>
+    <span class="nav-arrow">›</span>
+    <span class="view-toggle">▦</span>
+  </div>
+
+  <div class="list-controls">
+    <span class="total">전체 <b>46개</b> 상품</span>
+    <span class="in-search"><input type="text" placeholder="기획전 내에서 상품을 검색하세요"><span style="color:#b9bec4">⌕</span></span>
+    <span class="sorts">
+      <a class="on" href="#">최신 등록순</a><a href="#">낮은 가격순</a><a href="#">높은 가격순</a><a href="#">할인율순</a>
+    </span>
+  </div>
+
+  <section>
+    <div class="sec-title">복지쇼핑 <span class="cnt">36개</span></div>
+    <div class="prod-grid" id="grid-welfare"></div>
+  </section>
+
+  <section>
+    <div class="sec-title">제너두 숙박 특가 <span class="cnt">9개</span></div>
+    <div class="prod-grid" id="grid-stay"></div>
+  </section>
+
+  <section>
+    <div class="sec-title">자기계발 <span class="cnt">4개</span></div>
+    <div class="prod-grid" id="grid-study"></div>
+  </section>
+
+  <section>
+    <div class="sec-title">건강관리 <span class="cnt">1개</span></div>
+    <div class="prod-grid" id="grid-health"></div>
+  </section>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="f-top">
+      <span class="logo">❧ 제너두</span>
+      <a href="#">이용약관</a>
+      <a href="#"><b>개인정보처리방침</b></a>
+    </div>
+    운영사 사업자정보 · 주소 · 대표번호 · 통신판매업신고번호 표기 영역<br>
+    고객센터 운영시간 안내 · 제휴문의 · 입점문의
+  </div>
+</footer>
+
+<aside class="quick-menu">
+  <div class="qm-top">최근 본<br>상품</div>
+  <div class="qm-item">쿠폰</div>
+  <div class="qm-item">장바구니</div>
+  <div class="qm-item">TOP</div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="../../_shared/sb-annotate/sb-annotate.js"></script>
+<script src="../../_shared/sb-gnb/sb-gnb.js"></script>
+<script>
+(function () {
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2100);
+  }
+
+  // ── 쿠폰 다운로드 (요구사항 2) ──────────────────
+  var grid = document.getElementById('couponGrid');
+  var availCount = document.getElementById('couponAvailCount');
+  var downloadAllBtn = document.getElementById('downloadAllBtn');
+
+  function markDone(card) {
+    card.classList.add('done');
+    card.querySelector('.act .ico').textContent = '✓';
+    card.querySelector('.act .txt').textContent = '받음';
+  }
+  function remaining() {
+    return grid.querySelectorAll('.coupon-card:not(.done):not(.ended)');
+  }
+  function refreshCount() {
+    var n = remaining().length;
+    availCount.textContent = n ? '받을 수 있는 쿠폰 ' + n + '장' : '받을 수 있는 쿠폰 없음';
+    downloadAllBtn.disabled = n === 0;
+  }
+
+  // 카드 전체가 클릭 영역 — 개별 다운로드
+  grid.addEventListener('click', function (e) {
+    var card = e.target.closest('.coupon-card');
+    if (!card) return;
+    if (card.classList.contains('ended')) { showToast('수량이 소진되었거나 발급이 종료된 쿠폰입니다'); return; }
+    if (card.classList.contains('done')) { showToast('이미 받은 쿠폰입니다'); return; }
+    markDone(card);
+    refreshCount();
+    showToast(card.dataset.name + ' 쿠폰이 발급되었습니다');
+  });
+
+  // 전체 다운로드 — 받을 수 있는 것만 발급하고 결과를 안내
+  downloadAllBtn.addEventListener('click', function () {
+    var targets = remaining();
+    if (!targets.length) { showToast('받을 수 있는 쿠폰이 없습니다'); return; }
+    var blocked = grid.querySelectorAll('.coupon-card.ended').length;
+    var already = grid.querySelectorAll('.coupon-card.done').length;
+    targets.forEach(markDone);
+    refreshCount();
+    var msg = targets.length + '장이 발급되었습니다';
+    var skip = [];
+    if (already) skip.push('이미 받음 ' + already + '장');
+    if (blocked) skip.push('발급 불가 ' + blocked + '장');
+    if (skip.length) msg += ' (' + skip.join(' / ') + ')';
+    showToast(msg);
+  });
+
+  refreshCount();
+
+  // ── 결제 혜택 카드사 칩 ──────────────────
+  var cards = [
+    ['현대카드', '#2b2b2b', '2~6개월'], ['신한카드', '#0046ff', '2~5개월'], ['삼성카드', '#1428a0', '2~6개월'],
+    ['국민카드', '#6b5b45', '2~6개월'], ['전북카드', '#0b9b8a', '2~3개월'], ['하나카드', '#00857e', '2~6개월'],
+    ['비씨카드', '#e8380d', '2~5개월'], ['롯데카드', '#da291c', '2~6개월'], ['씨티카드', '#003b70', '2~4개월'],
+    ['광주카드', '#1a56db', '2~3개월'], ['농협카드', '#f0a500', '2~6개월']
+  ];
+  document.getElementById('cardGrid').innerHTML = cards.map(function (c) {
+    return '<span class="card-chip">' +
+      '<span class="cl" style="background:' + c[1] + '">' + c[0].charAt(0) + '</span>' +
+      '<span class="nm">' + c[0] + '</span><span class="mo">최대 ' + c[2] + '</span></span>';
+  }).join('');
+
+  // ── 상품 목록 (더미 데이터) ──────────────────
+  function card(seller, name, was, rate, price, flag, tag) {
+    return '<div class="prod-card">' +
+      '<div class="thumb">' + (tag ? '<span class="tag">' + tag + '</span>' : '') + '상품 이미지</div>' +
+      '<div class="seller">' + seller + '</div>' +
+      '<div class="pname">' + name + '</div>' +
+      '<div class="was">' + was + '</div>' +
+      '<div class="now"><span class="rate">' + rate + '</span><span class="price">' + price + '</span></div>' +
+      (flag ? '<span class="flag">' + flag + '</span>' : '') +
+      '</div>';
+  }
+  document.getElementById('grid-welfare').innerHTML = [
+    card('쿠쿠전자', '[쿠쿠] 스테인리스 전기주전자 1.7L 보온기능 포함', '79,000원', '66%', '26,900원', '무이자', 'BEST'),
+    card('한일', '[한일] 미니 PTC 전기히터 3단 온도조절 저소음', '83,900원', '62%', '31,900원', '무이자'),
+    card('락앤락', '[락앤락] 밀폐용기 20종 세트 전자레인지 사용가능', '46,000원', '60%', '18,900원', ''),
+    card('퍼시스', '[퍼시스] 사무용 메쉬 의자 요추받침 조절형', '125,000원', '60%', '50,000원', '무이자'),
+    card('애경', '[애경] 바디워시 900ml 2종 기획세트', '28,000원', '54%', '13,900원', ''),
+    card('아디다스', '[아디다스] 트레이닝 세트 상하의 남녀공용', '398,000원', '73%', '108,000원', '무이자', '한정수량'),
+    card('풀무원', '[풀무원] 냉동 간편식 10종 혼합구성', '39,900원', '60%', '16,900원', ''),
+    card('씽크웨이', '[Thinkway] 기계식 키보드 적축 RGB 백라이트', '115,000원', '22%', '89,000원', '무이자'),
+    card('샤오미', '[샤오미] 가습기 4L 대용량 저소음 UV 살균', '98,000원', '40%', '59,900원', ''),
+    card('종근당', '[종근당] 비타민D 1000IU 6개월분 2박스', '52,000원', '24%', '39,900원', '무이자')
+  ].join('');
+  document.getElementById('grid-stay').innerHTML = [
+    card('제주', '[제주] 그랜드 리조트 디럭스 2인 1박 조식포함', '300,000원', '20%', '240,000원 ~', ''),
+    card('서울', '[서울] 비즈니스 호텔 시티뷰 2인 1박', '366,000원', '20%', '293,000원 ~', ''),
+    card('강릉', '[강릉] 오션뷰 풀빌라 기준 4인 1박', '328,000원', '36%', '208,000원 ~', ''),
+    card('부산', '[부산] 해운대 스파 리조트 2인 1박', '34,900원', '47%', '18,500원', ''),
+    card('가평', '[가평] 캠핑형 글램핑 4인 1박 바비큐 포함', '26,000원', '27%', '19,000원', '')
+  ].join('');
+  document.getElementById('grid-study').innerHTML = [
+    card('온라인교육', '[패키지] 올패스 3개월 온라인 수강권 전 강좌 무제한', '168,000원', '12%', '148,000원', ''),
+    card('화상영어', '[주니어] 화상영어 1:1 주 3회 3개월 과정', '130,000원', '10%', '117,000원', ''),
+    card('독서토론', '[시사토론] 온라인 토론회화 3개월 과정', '190,000원', '10%', '171,000원', ''),
+    card('일반회화', '[일반회화] 원어민 1:1 전화영어 3개월', '123,000원', '10%', '110,500원', '')
+  ].join('');
+  document.getElementById('grid-health').innerHTML = [
+    card('건강검진', '[종합검진] 17개월 이용권 남녀공용 전국 지정병원', '160,000원', '45%', '88,000원', '무이자')
+  ].join('');
+})();
+</script>
+<script>
+  SBGnb.init({
+    home: '../index.html',
+    current: '기획전 상세 (FO)',
+    pages: [
+      { name: '쿠폰관리 (BO)', path: '쿠폰관리.html' },
+      { name: '기획전 등록/상세 (BO)', path: '기획전관리.html' },
+      { name: '기획전 상세 (FO)', path: '기획전상세_FO.html' }
+    ]
+  });
+</script>
+<script>
+  SBAnnotate.init([
+    {
+      target: '#couponZoneTitle',
+      title: '기획전 쿠폰 영역 신설 (요구사항 2·5·7)',
+      body: '[Visible]\n- 위치: 대형 배너 아래, 상품 보기 버튼 위\n- 3열 2행, 최대 6개까지 노출\n- 카드의 타이틀·쿠폰정보 문구·배경색·텍스트색은 쿠폰관리(BO)에서 현업이 입력한 값 (요구사항 7)\n- 유효기간은 쿠폰 데이터의 시스템 값\n[Exception]\n- 기획전 적용고객사 대상이 아닌 유저에게는 영역 전체 미노출 (요구사항 5)\n- 노출할 쿠폰이 0건이면 영역 자체를 그리지 않음'
+    },
+    {
+      target: '#couponGrid',
+      title: '개별 다운로드 — 카드 전체가 클릭 영역 (요구사항 2)',
+      body: '[Action]\n- 카드 아무 곳이나 클릭 → 해당 쿠폰 1장 발급\n[Visible]\n- 상태 3종: 받기 전(컬러 + ⬇) / 받음(흐리게 + ✓) / 종료·소진(회색 + ✕)\n- 받은 쿠폰도 목록에서 사라지지 않고 받음 상태로 남음\n[Exception]\n- 받음 상태 재클릭 시 "이미 받은 쿠폰입니다"\n- 종료·소진 클릭 시 "수량이 소진되었거나 발급이 종료된 쿠폰입니다"\n- 비로그인 상태면 로그인 화면으로 유도'
+    },
+    {
+      target: '#downloadAllBtn',
+      title: '쿠폰 전체 다운로드 — 잔여분만 발급 (요구사항 2)',
+      body: '[Action]\n- 클릭 시 아직 받지 않은 쿠폰만 일괄 발급\n- 결과를 건수로 안내 (예: 3장이 발급되었습니다 / 이미 받음 1장 / 발급 불가 1장)\n[Exception]\n- 일부가 소진·종료여도 전체를 막지 않고 발급 가능한 것만 처리\n- 받을 수 있는 쿠폰이 0장이면 버튼 비활성화'
+    },
+    {
+      target: '#couponNote',
+      title: '쿠폰 적용 범위 안내 (요구사항 3 연계)',
+      body: '[Visible]\n- 쿠폰은 기획전 내 상품에만 적용된다는 안내\n- 기획전 상품이 변경되면 적용 대상도 함께 변경된다는 안내\n[Exception]\n- 결제 페이지에서 쿠폰 적용 시 대상 여부를 다시 검사하고, 대상이 아니면 적용 불가 안내'
+    }
+  ]);
+</script>
+
+</body>
+</html>
