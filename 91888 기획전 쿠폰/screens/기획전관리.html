@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기획전 등록/상세 — Master Administrator</title>
+<link rel="stylesheet" href="../../_shared/sb-annotate/sb-annotate.css">
+<link rel="stylesheet" href="../../_shared/sb-gnb/sb-gnb.css">
+<style>
+  :root {
+    --border: #ddd;
+    --label-bg: #f2f2f2;
+    --label-text: #555;
+    --required-mark: #e0392c;
+    --grid-head-bg: #c8e1f5;
+    --ink: #888;
+    --sub: #888;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    min-width: 1280px;
+    background: #fff;
+    color: #333;
+    font-family: Dotum, "돋움", Arial, sans-serif;
+    font-size: 12px;
+  }
+  input, select, textarea, button { font-family: inherit; font-size: 12px; }
+
+  /* ── 상단 헤더 ───────────────────────── */
+  header.top-bar {
+    height: 49px;
+    padding: 3px 10px 0 8px;
+    background: #f0f5f8;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  header.top-bar .brand { font: 700 23px Arial, sans-serif; white-space: nowrap; }
+  header.top-bar .brand b { color: #4c4c4c; }
+  header.top-bar .brand span { font-size: 20px; font-weight: 700; color: #777; margin-left: 5px; }
+  header.top-bar nav.user-nav { font-size: 11px; color: #444; padding-top: 9px; }
+  header.top-bar nav.user-nav a, header.top-bar nav.user-nav b { color: #444; text-decoration: none; }
+  header.top-bar nav.user-nav a:hover { text-decoration: underline; }
+  header.top-bar nav.user-nav .sep { margin: 0 3px; color: #666; }
+
+  /* ── MDI 탭바 ───────────────────────── */
+  .tab-bar {
+    height: 30px;
+    padding: 0 8px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    background: #f0f5f8;
+    border-bottom: 1px solid #d2e4ef;
+    overflow: hidden;
+    position: relative;
+  }
+  .tab-bar .collapse-btn {
+    position: absolute; left: 0; top: 0;
+    width: 14px; height: 30px;
+    background: #666; border: 1px solid #555;
+    color: #fff; font-size: 10px; cursor: pointer;
+  }
+  .tab-bar .mdi-tab {
+    display: inline-flex; align-items: center;
+    height: 30px; gap: 16px; padding: 0 8px 0 25px;
+    background: #72a2ca; border: 1px solid #9bc0dc;
+    color: #fff; white-space: nowrap; flex: 0 0 auto;
+  }
+  .tab-bar .mdi-tab.current { background: #5c90bd; }
+  .tab-bar .mdi-tab .x { color: #fff; font-size: 17px; cursor: pointer; }
+  .tab-bar .mdi-tab.closed { display: none; }
+
+  /* ── 본문 ───────────────────────── */
+  main { padding: 0 12px 16px 8px; }
+  .page-title {
+    height: 55px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 8px;
+    color: #333; font-size: 14px; font-weight: 700;
+  }
+  .page-title .bullet { color: #999; font-size: 10px; }
+
+  .tab-row { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid #aaa; }
+  .sub-tabs { display: flex; height: 29px; gap: 3px; }
+  .sub-tabs button {
+    height: 29px; padding: 0 22px;
+    background: #aaa; border: 1px solid #999;
+    color: #fff; cursor: pointer;
+  }
+  .sub-tabs button.active { background: #ff5000; border-color: #ff5000; }
+  .tab-row .preview-btn { margin-bottom: 4px; }
+
+  .panel { padding: 9px 0 0; }
+  .panel[hidden] { display: none; }
+
+  .section-title {
+    height: 30px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 8px;
+    margin-top: 5px;
+    border: 1px solid #c3c3c3;
+    background: linear-gradient(#ddd, #d2d2d2);
+    font-size: 13px; font-weight: 700; color: #444;
+  }
+  .section-title:first-of-type { margin-top: 0; }
+  .section-title .bullet { color: #999; font-size: 7px; }
+  .section-title .title-note { margin-left: auto; font-size: 11px; font-weight: 400; color: #666; }
+
+  /* ── 폼 그리드 ───────────────────────── */
+  table.form-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.form-grid col.lbl { width: 123px; }
+  table.form-grid col.val { width: auto; }
+  table.form-grid th, table.form-grid td {
+    height: 29px;
+    padding: 4px 5px;
+    border: 1px solid var(--border);
+    border-top: none;
+    vertical-align: middle;
+    text-align: left;
+  }
+  table.form-grid tr:first-child th,
+  table.form-grid tr:first-child td { border-top: 1px solid var(--border); }
+
+  th.field-label {
+    background: var(--label-bg);
+    color: var(--label-text);
+    font-weight: 400;
+    white-space: nowrap;
+    position: relative;
+  }
+  th.field-label::before {
+    content: "";
+    position: absolute; top: 2px; left: 2px;
+    width: 0; height: 0;
+    border-top: 5px solid var(--required-mark);
+    border-right: 5px solid transparent;
+  }
+  th.field-label.optional::before { display: none; }
+
+  td.field-value { background: #fff; }
+  td.field-value .field-line { display: flex; align-items: center; gap: 4px; }
+  td.field-value .field-line + .field-line { margin-top: 2px; }
+  td.field-value .plain-text { color: #888; }
+  td.field-value .note { color: #888; margin-left: 5px; }
+  td.field-value .note.guide { color: #1c7cd6; }
+
+  /* 셀 안에 들어가는 보조 라벨 — 한 줄에 라벨/값 쌍이 둘 이상인 행 재현용 */
+  .sub-label {
+    display: inline-flex; align-items: center;
+    height: 29px; padding: 0 7px;
+    margin: 0 0 0 10px;
+    background: var(--label-bg);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    color: var(--label-text);
+  }
+
+  input[type="text"], textarea, select {
+    border: 1px solid var(--border);
+    background: #fcfcfc;
+    color: #888;
+    height: 20px;
+    padding: 1px 3px;
+  }
+  select { height: 21px; background: #fff; color: #555; }
+  textarea { height: 40px; width: 95%; background: #fff; resize: vertical; }
+  input[type="text"]:disabled, select:disabled { background: #fafafa; color: #bbb; }
+  input.w-short { width: 80px; }
+  input.w-date { width: 116px; font-size: 11px; }
+  input.w-mid { width: 130px; }
+  input.w-url { width: 270px; }
+  input.w-wide { width: 350px; max-width: 100%; }
+  input.w-full { width: 99%; }
+  input.w-file { width: 100px; }
+
+  input[type="radio"], input[type="checkbox"] {
+    width: 13px; height: 13px; margin: 0 4px 0 0;
+    vertical-align: middle; accent-color: #0787ff;
+  }
+  label.radio, label.check {
+    display: inline-flex; align-items: center;
+    margin-right: 3px; white-space: nowrap; cursor: pointer;
+  }
+
+  button.btn {
+    height: 21px; padding: 1px 6px;
+    background: linear-gradient(#aaa, #929292);
+    border: 1px solid #999;
+    border-radius: 1px;
+    color: #fff; font-weight: 700;
+    box-shadow: 1px 2px 2px #ddd;
+    cursor: pointer;
+  }
+  button.btn:hover { background: linear-gradient(#b4b4b4, #9c9c9c); }
+  button.btn.tiny { height: 19px; padding: 0 4px; font-size: 11px; }
+  button.btn.cal {
+    width: 19px; height: 20px; padding: 0;
+    background: linear-gradient(#4b95cf 0 5px, #fff 5px);
+    color: #5c9bca; border: 1px solid #80a9ce;
+    box-shadow: none; font: 20px/18px Arial;
+  }
+  button.btn.link {
+    background: linear-gradient(#7fb2e0, #5c90bd);
+    border-color: #4e82ae;
+  }
+
+  /* ── 에디터(WYSIWYG) 목업 ───────────────────────── */
+  .editor-guides { display: flex; justify-content: flex-end; gap: 3px; padding: 3px 0; }
+  .editor { border: 1px solid #c3c3c3; background: #fff; }
+  .editor-toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 2px;
+    padding: 3px 4px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+  }
+  .editor-toolbar .tb {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 19px; height: 19px; padding: 0 3px;
+    border: 1px solid transparent;
+    cursor: default;
+  }
+  .editor-toolbar .tb:hover { border-color: #c9d6e2; background: #e8f0f8; }
+  .editor-toolbar .tb.sel {
+    min-width: 60px; justify-content: space-between;
+    border-color: #ccc; background: #fff; padding: 0 4px;
+  }
+  .editor-toolbar .divider { width: 1px; height: 16px; background: #ddd; margin: 0 3px; }
+  .editor-body {
+    height: 200px;
+    overflow: auto;
+    padding: 18px 12px;
+    color: #333;
+  }
+  .brand-wall {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 26px 44px;
+    min-width: 900px;
+  }
+  .brand-wall span {
+    font: 700 17px "Times New Roman", serif;
+    letter-spacing: .04em;
+    color: #4a4a4a;
+    white-space: nowrap;
+  }
+
+  /* ── 데이터 그리드 ───────────────────────── */
+  .grid-toolbar {
+    display: flex; align-items: center; gap: 4px;
+    height: 29px; padding: 3px 5px;
+    background: #eee; border: 1px solid #ccc;
+  }
+  .grid-toolbar .count { margin-left: 6px; color: #666; }
+  .grid-toolbar .count em { font-style: normal; color: #c0392b; }
+  table.data-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.data-grid th {
+    height: 25px; padding: 3px;
+    background: var(--grid-head-bg);
+    border: 1px solid #9cc4e4; border-top: none;
+    color: #004c97; font-weight: 400; text-align: center;
+  }
+  table.data-grid th .req { color: #e0392c; }
+  table.data-grid td {
+    height: 22px; padding: 3px 5px;
+    border: 1px solid #c5d7eb;
+    font-size: 11px; color: #555; text-align: center;
+  }
+  table.data-grid td.left { text-align: left; }
+  table.data-grid tr.focused td { border-top: 1px solid #b7e64b; border-bottom: 1px solid #b7e64b; }
+  table.data-grid tr.focused td:first-child { background: #fff; outline: 1px solid #ace000; outline-offset: -1px; }
+  table.data-grid .empty-row td { height: 60px; color: #999; }
+  table.data-grid input[type="checkbox"] { width: 12px; height: 12px; margin: 0; }
+
+  .company-box { border: 1px solid #ccc; padding: 5px; margin-bottom: 4px; display: inline-block; }
+  .company-box .row { display: flex; align-items: center; gap: 4px; }
+  .company-box .row + .row { margin-top: 4px; }
+  .company-box .row .k { width: 86px; color: #555; }
+
+  /* ── 하단 액션 ───────────────────────── */
+  .form-actions { display: flex; justify-content: center; gap: 4px; padding: 14px 0 0; }
+  .form-actions button {
+    height: 24px; padding: 2px 14px;
+    border: 1px solid #999; border-radius: 1px;
+    background: linear-gradient(#aaa, #929292);
+    color: #fff; font-weight: 700;
+    box-shadow: 1px 2px 2px #ddd;
+    cursor: pointer;
+  }
+  .form-actions button.primary {
+    background: linear-gradient(#f8832f, #ef6511);
+    border-color: #d85a0b;
+  }
+  .app-footer { text-align: right; color: #999; font-size: 11px; padding: 10px 4px 0; }
+
+  .placeholder-panel { padding: 60px 20px; text-align: center; color: #999; }
+
+  /* ── 토스트 ───────────────────────── */
+  .toast {
+    position: fixed; left: 50%; bottom: 40px;
+    transform: translateX(-50%) translateY(20px);
+    background: #23262b; color: #fff;
+    padding: 10px 20px; border-radius: 4px; font-size: 13px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── 기획전 쿠폰(91888 TO-BE) ───────────────────────── */
+  .coupon-note { color: #666; margin: 4px 0 0; line-height: 1.6; }
+  .coupon-note b { color: #d35400; }
+  table.data-grid td .fo-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; line-height: 1.2;
+  }
+  .fo-preview {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    padding: 10px;
+    background: #fafbfc; border: 1px solid #e3e7ec;
+  }
+  .fo-preview .fo-label { color: #888; margin-right: 4px; }
+  .coupon-card {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-width: 150px; padding: 8px 14px; border-radius: 6px;
+    font-family: "Malgun Gothic", sans-serif;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    position: relative;
+  }
+  .coupon-card::before {
+    content: ""; position: absolute; left: -6px; top: 50%;
+    width: 12px; height: 12px; background: #fff; border-radius: 50%;
+    transform: translateY(-50%);
+  }
+  .coupon-card .badge { font-size: 17px; font-weight: 800; }
+  .coupon-card .text { display: flex; flex-direction: column; line-height: 1.35; }
+  .coupon-card .text b { font-size: 13px; }
+  .coupon-card .text small { font-size: 11.5px; opacity: .92; }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="brand"><b>Master</b><span>Administrator</span></div>
+  <nav class="user-nav">
+    <b>박장훈</b>님 안녕하세요
+    <span class="sep">|</span><a href="#">캐시업데이트</a>
+    <span class="sep">|</span><a href="#">OTP설정</a>
+    <span class="sep">|</span><a href="#">비밀번호변경</a>
+    <span class="sep">|</span><a href="#">로그아웃</a>
+  </nav>
+</header>
+
+<div class="tab-bar" id="mdiTabBar">
+  <button class="collapse-btn" id="collapseBtn" type="button">▶</button>
+  <div class="mdi-tab"><span>고객사 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>고객사 계산서 발행관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>마스터 전시 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>판매분 정산확정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>판매분 정산정정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>협력사 관리</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>사후결제 정산확정</span><span class="x">×</span></div>
+  <div class="mdi-tab"><span>배너관리</span><span class="x">×</span></div>
+  <div class="mdi-tab current"><span>기획전관리</span><span class="x">×</span></div>
+</div>
+
+<main>
+  <div class="page-title"><span class="bullet">■</span> 기획전 등록/상세</div>
+
+  <div class="tab-row">
+    <div class="sub-tabs">
+      <button type="button" class="active" data-panel="panel-basic">기획전 기본 정보</button>
+      <button type="button" data-panel="panel-product">상품 정보</button>
+    </div>
+    <button type="button" class="btn preview-btn" id="previewBtn">기획전 미리보기</button>
+  </div>
+
+  <!-- ───────── 기획전 기본 정보 ───────── -->
+  <div class="panel" id="panel-basic">
+    <form id="eventForm">
+
+      <div class="section-title"><span class="bullet">■</span> 기본 정보</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">기획전번호</th>
+            <td class="field-value"><span class="plain-text">D45084</span></td>
+            <th class="field-label optional">기획전URL</th>
+            <td class="field-value"><input type="text" class="w-url" value="/specialdisplay/specialdisplay?spdpNo=D45084"></td>
+          </tr>
+          <tr>
+            <th class="field-label">기획전명</th>
+            <td class="field-value" colspan="3"><input type="text" class="w-wide" id="eventName" value="26년 10월 빅브랜드전"></td>
+          </tr>
+          <tr>
+            <th class="field-label optional">전시설명</th>
+            <td class="field-value"><input type="text" class="w-wide" placeholder="30자 제한."></td>
+            <th class="field-label optional">우선순위</th>
+            <td class="field-value"><input type="text" class="w-short"></td>
+          </tr>
+          <tr>
+            <th class="field-label optional">사용여부</th>
+            <td class="field-value">
+              <select><option>사용함</option><option>사용안함</option></select>
+            </td>
+            <th class="field-label optional">전시여부</th>
+            <td class="field-value">
+              <select><option>전시함</option><option>전시안함</option></select>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">전시기간</th>
+            <td class="field-value">
+              <div class="field-line">
+                <input type="text" class="w-date" value="2026-09-21 00:00">
+                <input type="text" class="w-date" value="2026-10-31 23:59">
+                <button type="button" class="btn cal" aria-label="날짜 선택" title="날짜 선택"><span aria-hidden="true">▦</span></button>
+              </div>
+            </td>
+            <th class="field-label">기획전유형코드</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="eventType" checked>일반</label>
+              <label class="radio"><input type="radio" name="eventType">추천</label>
+              <label class="radio"><input type="radio" name="eventType">제휴사</label>
+              <label class="radio"><input type="radio" name="eventType">베스트</label>
+              <label class="radio"><input type="radio" name="eventType">맛보기몰</label>
+              <label class="radio"><input type="radio" name="eventType">선물하기전문관</label>
+              <label class="radio"><input type="radio" name="eventType">둘러보기</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">등록자</th>
+            <td class="field-value">
+              <span class="plain-text">위상훈</span>
+              <span class="sub-label">등록일</span>
+              <span class="plain-text">2026-09-21 13:32:16</span>
+            </td>
+            <th class="field-label optional">최종수정자</th>
+            <td class="field-value">
+              <span class="plain-text">위상훈</span>
+              <span class="sub-label">최종수정일</span>
+              <span class="plain-text">2026-09-29 17:52:00</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 노출 정보</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">혜택 이벤트</th>
+            <td class="field-value" colspan="3">
+              <input type="text" class="w-wide">
+              <label class="check" style="margin-left:8px"><input type="checkbox">검색창 노출</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">지금 뜨는 검색어</th>
+            <td class="field-value" colspan="3"><input type="text" class="w-wide"></td>
+          </tr>
+          <tr>
+            <th class="field-label optional">GNB메뉴배너유형</th>
+            <td class="field-value" colspan="3">
+              <select><option>선택하세요.</option></select>
+              <span class="note">* GNB 1depth 카테고리 매핑</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">썸네일이미지(PC)</th>
+            <td class="field-value">
+              <input type="text" class="w-file">
+              <button type="button" class="btn tiny">찾아보기</button>
+              <button type="button" class="btn tiny" disabled>미리보기</button>
+              <button type="button" class="btn tiny">삭제</button>
+              <span class="note">용량 : 권장50KB/최대200KB</span>
+            </td>
+            <th class="field-label optional">썸네일이미지(모바일)</th>
+            <td class="field-value">
+              <input type="text" class="w-file">
+              <button type="button" class="btn tiny">찾아보기</button>
+              <button type="button" class="btn tiny" disabled>미리보기</button>
+              <button type="button" class="btn tiny">삭제</button>
+              <span class="note">용량 : 권장50KB/최대200KB</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">카테고리 배너 이미지</th>
+            <td class="field-value" colspan="3">
+              <input type="text" class="w-file">
+              <button type="button" class="btn tiny">찾아보기</button>
+              <button type="button" class="btn tiny" disabled>미리보기</button>
+              <button type="button" class="btn tiny">삭제</button>
+              <span class="note">용량 : 권장50KB/최대200KB &nbsp; * 쇼핑메인 카테고리 배너</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">적용매체</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="media" checked>PC+모바일</label>
+              <label class="radio"><input type="radio" name="media">PC</label>
+              <label class="radio"><input type="radio" name="media">모바일</label>
+            </td>
+            <th class="field-label optional">담당MD</th>
+            <td class="field-value">
+              <input type="text" class="w-mid" value="위상훈">
+              <button type="button" class="btn tiny">찾기</button>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">마스터카테고리</th>
+            <td class="field-value">
+              <input type="text" class="w-wide">
+              <button type="button" class="btn tiny">찾기</button>
+            </td>
+            <th class="field-label optional">배송비 구분</th>
+            <td class="field-value">
+              <div class="field-line"><label class="check"><input type="checkbox">개별수령</label></div>
+              <div class="field-line"><label class="check"><input type="checkbox">단체수령</label></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ───────── TO-BE: 기획전 쿠폰 (요구사항 6) ───────── -->
+      <div class="section-title">
+        <span class="bullet">■</span> 기획전 쿠폰
+        <span class="title-note" id="couponSectionNote">쿠폰 연결·해제는 쿠폰관리에서 수행합니다. 이 화면은 조회 전용입니다.</span>
+      </div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">적용 쿠폰</th>
+            <td class="field-value">
+              <span class="grid-toolbar">
+                <button type="button" class="btn tiny" id="refreshCouponBtn">새로고침</button>
+                <button type="button" class="btn tiny" id="excelCouponBtn">엑셀다운로드</button>
+                <span class="count" id="couponCount">(총 3 건 / 최대 <em>6</em>건)</span>
+              </span>
+              <table class="data-grid">
+                <colgroup>
+                  <col style="width:92px"><col style="width:auto"><col style="width:120px">
+                  <col style="width:158px"><col style="width:74px"><col style="width:180px"><col style="width:84px">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>쿠폰번호</th>
+                    <th>쿠폰명</th>
+                    <th>할인</th>
+                    <th>발행기간</th>
+                    <th>발행상태</th>
+                    <th>기획전 노출 정보</th>
+                    <th>관리</th>
+                  </tr>
+                </thead>
+                <tbody id="couponGridBody">
+                  <tr>
+                    <td>C-250901</td>
+                    <td class="left">빅브랜드전 10% 할인쿠폰</td>
+                    <td>정률 10% <span style="color:#999">(최대 10,000원)</span></td>
+                    <td>2026-09-21 ~ 2026-10-31</td>
+                    <td>발행중</td>
+                    <td><span class="fo-chip" style="background:#2f6fed;color:#fff">첫 구매 쿠폰 · 10% 할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250901">쿠폰 상세</button></td>
+                  </tr>
+                  <tr>
+                    <td>C-250902</td>
+                    <td class="left">빅브랜드전 5,000원 할인쿠폰</td>
+                    <td>정액 5,000원</td>
+                    <td>2026-09-21 ~ 2026-10-31</td>
+                    <td>발행중</td>
+                    <td><span class="fo-chip" style="background:#e2531c;color:#fff">5천원 할인 · 즉시할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250902">쿠폰 상세</button></td>
+                  </tr>
+                  <tr>
+                    <td>C-250903</td>
+                    <td class="left">주말 특가 3,000원 할인쿠폰</td>
+                    <td>정액 3,000원</td>
+                    <td>2026-10-01 ~ 2026-10-15</td>
+                    <td>발행대기</td>
+                    <td><span class="fo-chip" style="background:#16a34a;color:#fff">주말 특가 · 3천원 할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250903">쿠폰 상세</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="coupon-note" id="couponSyncNote">
+                쿠폰관리에서 적용대상(기획전)을 변경하거나 기획전 상품이 바뀌면 이 목록과 고객 화면에 <b>즉시 반영</b>됩니다.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">고객 화면 노출</th>
+            <td class="field-value">
+              <div class="fo-preview" id="foPreview">
+                <span class="fo-label">미리보기</span>
+                <span class="coupon-card" style="background:#2f6fed;color:#fff">
+                  <span class="badge">%</span>
+                  <span class="text"><b>첫 구매 쿠폰</b><small>10% 할인</small></span>
+                </span>
+                <span class="coupon-card" style="background:#e2531c;color:#fff">
+                  <span class="badge">₩</span>
+                  <span class="text"><b>5천원 할인</b><small>즉시할인</small></span>
+                </span>
+                <span class="coupon-card" style="background:#16a34a;color:#fff">
+                  <span class="badge">₩</span>
+                  <span class="text"><b>주말 특가</b><small>3천원 할인</small></span>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 전시내용</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">내용유형</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="bodyType" value="image">이미지</label>
+              <label class="radio"><input type="radio" name="bodyType" value="html" checked>HTML</label>
+            </td>
+            <th class="field-label optional">출력 형태</th>
+            <td class="field-value">
+              <select><option>확장형</option><option>기본형</option></select>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">기획전텍스트(PC)</th>
+            <td class="field-value" colspan="3">
+              <div class="editor-guides">
+                <button type="button" class="btn tiny">앱설치URL_SMS발송 스크립트 가이드</button>
+                <button type="button" class="btn tiny">시간카운트 적용 스크립트 가이드</button>
+                <button type="button" class="btn tiny">건강검진 상품 바로가기 사용 가이드</button>
+                <button type="button" class="btn tiny">예약어 가이드</button>
+              </div>
+              <div class="editor">
+                <div class="editor-toolbar">
+                  <span class="tb">▤</span><span class="tb">⎙</span><span class="tb">◱ 소스</span>
+                  <span class="divider"></span>
+                  <span class="tb">↶</span><span class="tb">↷</span>
+                  <span class="divider"></span>
+                  <span class="tb">🔗</span><span class="tb">⛓</span><span class="tb">⚑</span>
+                  <span class="divider"></span>
+                  <span class="tb">🖼</span><span class="tb">▦</span><span class="tb">▬</span><span class="tb">Ω</span>
+                  <span class="divider"></span>
+                  <span class="tb sel">문단 <small>▾</small></span>
+                  <span class="tb sel">글꼴 <small>▾</small></span>
+                  <span class="tb sel">크기 <small>▾</small></span>
+                  <span class="divider"></span>
+                  <span class="tb"><b>B</b></span><span class="tb"><i>I</i></span><span class="tb"><u>U</u></span><span class="tb"><s>S</s></span>
+                  <span class="tb">x₂</span><span class="tb">x²</span>
+                  <span class="divider"></span>
+                  <span class="tb">🖌</span><span class="tb">T×</span>
+                  <span class="divider"></span>
+                  <span class="tb">≔</span><span class="tb">≕</span><span class="tb">⇤</span><span class="tb">⇥</span>
+                  <span class="tb">❝</span><span class="tb">⌗</span>
+                  <span class="divider"></span>
+                  <span class="tb">≡</span><span class="tb">☰</span><span class="tb">≣</span><span class="tb">▤</span>
+                  <span class="divider"></span>
+                  <span class="tb sel">A <small>▾</small></span>
+                  <span class="tb sel">A <small>▾</small></span>
+                </div>
+                <div class="editor-body">
+                  <div class="brand-wall">
+                    <span>AIRMADE</span><span>경동나비엔</span><span>Alive!</span><span>LE CREUSET</span><span>CERAGEM</span>
+                    <span>Apple</span><span>SAMSUNG</span><span>Dr. Bio</span><span>SLOU BED</span><span>HAZZYS</span>
+                    <span>PUMA</span><span>THE NORTH FACE</span><span>umbro</span><span>STARBUCKS</span><span>동원</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label">기획전텍스트(모바일)</th>
+            <td class="field-value" colspan="3">
+              <div class="editor-guides">
+                <button type="button" class="btn tiny">스크립트 가이드</button>
+                <button type="button" class="btn tiny">예약어 가이드</button>
+              </div>
+              <div class="editor">
+                <div class="editor-toolbar">
+                  <span class="tb">▤</span><span class="tb">⎙</span><span class="tb">◱ 소스</span>
+                  <span class="divider"></span>
+                  <span class="tb">↶</span><span class="tb">↷</span>
+                  <span class="divider"></span>
+                  <span class="tb">🔗</span><span class="tb">⛓</span><span class="tb">⚑</span>
+                  <span class="divider"></span>
+                  <span class="tb">🖼</span><span class="tb">▦</span><span class="tb">▬</span><span class="tb">Ω</span>
+                  <span class="divider"></span>
+                  <span class="tb sel">문단 <small>▾</small></span>
+                  <span class="tb sel">글꼴 <small>▾</small></span>
+                  <span class="tb sel">크기 <small>▾</small></span>
+                  <span class="divider"></span>
+                  <span class="tb"><b>B</b></span><span class="tb"><i>I</i></span><span class="tb"><u>U</u></span><span class="tb"><s>S</s></span>
+                  <span class="divider"></span>
+                  <span class="tb">≡</span><span class="tb">☰</span><span class="tb">≣</span><span class="tb">▤</span>
+                  <span class="divider"></span>
+                  <span class="tb sel">A <small>▾</small></span>
+                  <span class="tb sel">A <small>▾</small></span>
+                </div>
+                <div class="editor-body">
+                  <div class="brand-wall" style="min-width:600px">
+                    <span>AIRMADE</span><span>경동나비엔</span><span>Alive!</span><span>LE CREUSET</span><span>CERAGEM</span>
+                    <span>Apple</span><span>SAMSUNG</span><span>Dr. Bio</span><span>SLOU BED</span><span>HAZZYS</span>
+                    <span>PUMA</span><span>THE NORTH FACE</span><span>umbro</span><span>STARBUCKS</span><span>동원</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">유의사항</th>
+            <td class="field-value" colspan="3"><textarea></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 하단 이미지</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">내용유형</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="footType" checked>이미지</label>
+              <label class="radio"><input type="radio" name="footType">HTML</label>
+            </td>
+            <th class="field-label optional">출력 형태</th>
+            <td class="field-value">
+              <select><option>기본형</option><option>확장형</option></select>
+              <span class="sub-label">이미지배경색상</span>
+              <input type="text" class="w-mid">
+              <button type="button" class="btn tiny">색상표</button>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">기획전하단이미지<br>(PC)</th>
+            <td class="field-value" colspan="3">
+              <input type="text" class="w-file">
+              <button type="button" class="btn tiny">찾아보기</button>
+              <button type="button" class="btn tiny" disabled>미리보기</button>
+              <button type="button" class="btn tiny">삭제</button>
+              <span class="note">size : (996 * 자유), 용량 : 권장400KB/최대1MB</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">기획전하단이미지<br>(모바일)</th>
+            <td class="field-value" colspan="3">
+              <input type="text" class="w-file">
+              <button type="button" class="btn tiny">찾아보기</button>
+              <button type="button" class="btn tiny" disabled>미리보기</button>
+              <button type="button" class="btn tiny">삭제</button>
+              <span class="note">size : (1080 * 자유), 용량 : 권장400KB/최대1MB</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">유의사항</th>
+            <td class="field-value" colspan="3"><textarea></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 제한설정</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">구매제한유형</th>
+            <td class="field-value">
+              <span style="color:#555">1</span>
+              <label class="radio"><input type="radio" name="buyLimit" id="buyLimitNone" checked>없음,</label>
+              <span style="color:#555; margin-left:6px">2</span>
+              <label class="radio"><input type="radio" name="buyLimit" id="buyLimitQty">기획전전체수량</label>
+              <label class="radio"><input type="radio" name="buyLimit" id="buyLimitAmt">기획전전체금액</label>
+              <input type="text" class="w-short" id="buyLimitValue" disabled>,
+              <span style="color:#555; margin-left:6px">3</span>
+              <label class="radio"><input type="radio" name="buyLimit" id="buyLimitSep">기획전구분자별</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">상품구분자노출여부</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="sepExpose" checked>사용</label>
+              <label class="radio"><input type="radio" name="sepExpose">사용안함</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">고객사카테고리<br>상속여부</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="catInherit">사용</label>
+              <label class="radio"><input type="radio" name="catInherit" checked>사용안함</label>
+              <span class="note">기획전 내부상품이 고객사별 카테고리 기준으로 자동 제어됩니다.</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">적용고객사</th>
+            <td class="field-value">
+              <div class="field-line" style="margin-bottom:4px">
+                <label class="radio"><input type="radio" name="companyScope" id="companyAll">전체</label>
+                <label class="radio"><input type="radio" name="companyScope" id="companyInclude">적용</label>
+                <label class="radio"><input type="radio" name="companyScope" id="companyExclude" checked>제외</label>
+              </div>
+              <div class="company-box">
+                <div class="row">
+                  <span class="k">마스터 카테고리</span>
+                  <select><option>선택하세요</option></select>
+                  <button type="button" class="btn tiny">적용</button>
+                </div>
+                <div class="row">
+                  <span class="k">제휴사</span>
+                  <input type="text" class="w-mid">
+                  <button type="button" class="btn tiny">찾기</button>
+                </div>
+              </div>
+              <span class="grid-toolbar">
+                <button type="button" class="btn tiny">마스터카테고리&amp;제휴사 초기화</button>
+                <button type="button" class="btn tiny">검색필터</button>
+                <button type="button" class="btn tiny" id="addCompanyBtn">고객사추가</button>
+                <button type="button" class="btn tiny">엑셀업로드</button>
+                <button type="button" class="btn tiny">엑셀다운로드</button>
+                <button type="button" class="btn tiny" id="delCompanyBtn">삭제</button>
+                <span class="count">(총 1 건) * 적용/제외하실 고객사에 체크표기를 하여주십시오.</span>
+              </span>
+              <table class="data-grid">
+                <colgroup><col style="width:20%"><col style="width:32%"><col></colgroup>
+                <thead>
+                  <tr>
+                    <th><label class="check" style="justify-content:center"><input type="checkbox" id="companyAllCheck">선택</label></th>
+                    <th><span class="req">*</span>고객사번호</th>
+                    <th><span class="req">*</span>고객사명</th>
+                  </tr>
+                </thead>
+                <tbody id="companyGridBody">
+                  <tr class="focused">
+                    <td><input type="checkbox"></td>
+                    <td class="left">TN8</td>
+                    <td class="left">한국쉘석유_B2C대리점샵</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">회원 등급별제한<br>사용여부</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="gradeLimit">사용</label>
+              <label class="radio"><input type="radio" name="gradeLimit" checked>사용안함</label>
+              <span class="note">고객사 회원 등급에 따라 기획전 진입이 제어됩니다.</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title"><span class="bullet">■</span> 기타 사항</div>
+      <table class="form-grid">
+        <colgroup><col class="lbl"><col class="val"></colgroup>
+        <tbody>
+          <tr>
+            <th class="field-label optional">통합검색 키워드</th>
+            <td class="field-value"><input type="text" class="w-full"></td>
+          </tr>
+          <tr>
+            <th class="field-label optional">레이아웃 선택</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="layout">(구)기획전 (996px)</label>
+              <label class="radio"><input type="radio" name="layout" checked>(신)기획전 (1200px)</label>
+            </td>
+          </tr>
+          <tr>
+            <th class="field-label optional">결제혜택 노출여부</th>
+            <td class="field-value">
+              <label class="radio"><input type="radio" name="payBenefit">미노출</label>
+              <label class="radio"><input type="radio" name="payBenefit" checked>노출</label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="form-actions">
+        <button type="button" class="primary" id="saveBtn">저장</button>
+        <button type="button" id="cancelBtn">취소</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ───────── 상품 정보 ───────── -->
+  <div class="panel" id="panel-product" hidden>
+    <div class="placeholder-panel">상품 정보 탭 — 이번 SB 범위 밖(기존 화면 유지)</div>
+  </div>
+
+  <div class="app-footer">Pi Commerence ver1.0</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="../../_shared/sb-annotate/sb-annotate.js"></script>
+<script src="../../_shared/sb-gnb/sb-gnb.js"></script>
+<script>
+(function () {
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1900);
+  }
+
+  // 서브탭 전환
+  document.querySelectorAll('.sub-tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.sub-tabs button').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.panel').forEach(function (p) { p.hidden = true; });
+      document.getElementById(btn.dataset.panel).hidden = false;
+    });
+  });
+
+  // MDI 탭 닫기 / 접기
+  document.querySelectorAll('.mdi-tab .x').forEach(function (x) {
+    x.addEventListener('click', function () { x.parentElement.classList.add('closed'); });
+  });
+  document.getElementById('collapseBtn').addEventListener('click', function () {
+    var bar = document.getElementById('mdiTabBar');
+    var hidden = bar.dataset.collapsed === '1';
+    bar.dataset.collapsed = hidden ? '0' : '1';
+    bar.querySelectorAll('.mdi-tab').forEach(function (t) { t.style.display = hidden ? '' : 'none'; });
+    this.textContent = hidden ? '▶' : '◀';
+  });
+
+  // 구매제한유형 — 수량/금액 선택 시에만 입력값 활성화
+  var buyLimitValue = document.getElementById('buyLimitValue');
+  document.querySelectorAll('input[name="buyLimit"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var on = document.getElementById('buyLimitQty').checked || document.getElementById('buyLimitAmt').checked;
+      buyLimitValue.disabled = !on;
+      if (!on) buyLimitValue.value = '';
+    });
+  });
+
+  // 적용고객사 — 전체 선택 시 고객사 지정 영역 비활성화
+  var companyBox = document.querySelector('.company-box');
+  var companyToolbar = companyBox.nextElementSibling;
+  document.querySelectorAll('input[name="companyScope"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var all = document.getElementById('companyAll').checked;
+      [companyBox, companyToolbar].forEach(function (el) {
+        el.style.opacity = all ? '.45' : '';
+        el.querySelectorAll('button, input, select').forEach(function (c) { c.disabled = all; });
+      });
+    });
+  });
+
+  // 고객사 그리드 전체선택
+  document.getElementById('companyAllCheck').addEventListener('change', function () {
+    var on = this.checked;
+    document.querySelectorAll('#companyGridBody input[type="checkbox"]').forEach(function (c) { c.checked = on; });
+  });
+  document.getElementById('delCompanyBtn').addEventListener('click', function () {
+    var checked = document.querySelectorAll('#companyGridBody input[type="checkbox"]:checked');
+    if (!checked.length) { showToast('삭제할 고객사를 선택하세요'); return; }
+    if (!confirm('선택한 고객사를 삭제할까요?')) return;
+    checked.forEach(function (c) { c.closest('tr').remove(); });
+  });
+  document.getElementById('addCompanyBtn').addEventListener('click', function () {
+    showToast('고객사 검색 팝업 — 이번 SB 범위 밖');
+  });
+
+  // 기획전 쿠폰 — 쿠폰관리 상세로 이동 (요구사항 6)
+  document.querySelectorAll('.coupon-detail-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      location.href = '쿠폰관리.html';
+    });
+  });
+  document.getElementById('refreshCouponBtn').addEventListener('click', function () {
+    showToast('쿠폰 적용 현황을 다시 불러왔습니다 (즉시 반영)');
+  });
+  document.getElementById('excelCouponBtn').addEventListener('click', function () {
+    showToast('엑셀다운로드 — 이번 SB 범위 밖');
+  });
+
+  // 미리보기 / 저장 / 취소
+  document.getElementById('previewBtn').addEventListener('click', function () {
+    showToast('기획전 미리보기 — 고객 화면(FO)으로 이동');
+  });
+  document.getElementById('saveBtn').addEventListener('click', function () {
+    showToast('저장되었습니다');
+  });
+  document.getElementById('cancelBtn').addEventListener('click', function () {
+    if (!confirm('입력한 내용을 취소할까요?')) return;
+    document.getElementById('eventForm').reset();
+    document.querySelectorAll('#eventForm input[type="radio"]').forEach(function (r) {
+      r.dispatchEvent(new Event('change'));
+    });
+    showToast('취소되었습니다');
+  });
+})();
+</script>
+<script>
+  SBGnb.init({
+    home: '../index.html',
+    current: '기획전 등록/상세 (BO)',
+    pages: [
+      { name: '쿠폰관리', path: '쿠폰관리.html' },
+      { name: '기획전 등록/상세 (BO)', path: '기획전관리.html' }
+    ]
+  });
+</script>
+<script>
+  SBAnnotate.init([
+    {
+      target: '#couponSectionNote',
+      title: '기획전 쿠폰 섹션 신설 — 조회 전용 (요구사항 6)',
+      body: '[Visible]\n- 이 기획전에 적용된 쿠폰 목록을 기획전 관리 화면에서 바로 확인\n- 컬럼: 쿠폰번호·쿠폰명·할인·발행기간·발행상태·기획전 노출 정보\n- 섹션 위치는 노출 정보 바로 아래 — 전시내용 에디터를 지나지 않고 확인 가능\n[Exception]\n- 쿠폰 연결·해제는 쿠폰관리에서만 수행, 이 화면에서는 추가·삭제 불가\n- 기획전 1개당 쿠폰 최대 6개 (헤더에 건수/최대치 표기)'
+    },
+    {
+      target: '#couponCount',
+      title: '적용 쿠폰 건수 표기 (요구사항 1 연계)',
+      body: '[Visible]\n- 현재 적용된 쿠폰 수와 최대 6건을 함께 노출\n[Exception]\n- 6/6이면 쿠폰관리의 기획전 선택 팝업에서 이 기획전이 선택 불가로 표시됨\n- 두 화면의 기준값은 동일한 쿠폰 적용 데이터'
+    },
+    {
+      target: '#refreshCouponBtn',
+      title: '쿠폰 상세 이동 · 즉시 반영 (요구사항 3·6)',
+      body: '[Action]\n- 각 행의 [쿠폰 상세] 클릭 → 해당 쿠폰의 쿠폰관리 상세로 이동\n- [새로고침] 클릭 → 쿠폰 적용 현황 재조회\n[Visible]\n- 쿠폰관리에서 적용대상을 바꾸거나 기획전 상품이 변경되면 이 목록과 고객 화면에 즉시 반영\n[Exception]\n- 발행대기·발행종료 쿠폰도 목록에는 표시되며 상태 컬럼으로 구분'
+    },
+    {
+      target: '#foPreview',
+      title: '고객 화면 노출 미리보기 (요구사항 7 연계)',
+      body: '[Visible]\n- 쿠폰관리에서 입력한 타이틀·쿠폰정보 문구·배경색·텍스트색이 그대로 반영된 미리보기\n- 기획전 담당자가 BO에서 FO 노출 결과를 사전 확인\n[Exception]\n- 이 화면에서는 수정 불가 — 값의 원본은 쿠폰관리의 기획전 노출 정보\n- 노출 순서는 쿠폰 적용 순서를 따름'
+    }
+  ]);
+</script>
+
+</body>
+</html>
