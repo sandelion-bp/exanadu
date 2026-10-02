@@ -637,8 +637,13 @@ input[type="color"] { width: 36px; height: 23px; padding: 1px; border: 1px solid
               <div class="field-line">
                 <span class="inline-label" style="margin-left:0">타이틀</span>
                 <input type="text" class="w-mid" id="eventCouponTitle" value="첫 구매 쿠폰" maxlength="14">
+                <span class="unit">14자</span>
                 <span class="inline-label">쿠폰정보 문구</span>
-                <input type="text" class="w-mid" id="eventCouponInfo" value="10% 할인">
+                <input type="text" class="w-mid" id="eventCouponInfo" value="10% 할인" maxlength="20">
+                <span class="unit">20자</span>
+              </div>
+              <div class="field-line">
+                <span class="issue-limit-note">※고객 화면에서 타이틀·문구는 각각 1줄로 노출되며, 길면 말줄임(…) 처리된다.</span>
               </div>
               <div class="field-line">
                 <span class="inline-label" style="margin-left:0">배경색상</span>

@@ -541,7 +541,7 @@
               <span class="grid-toolbar">
                 <button type="button" class="btn tiny" id="refreshCouponBtn">새로고침</button>
                 <button type="button" class="btn tiny" id="excelCouponBtn">엑셀다운로드</button>
-                <span class="count" id="couponCount">(총 3 건 / 최대 <em>6</em>건)</span>
+                <span class="count" id="couponCount">(총 6 건 / 등록 <em>6</em>건 고정)</span>
               </span>
               <table class="data-grid">
                 <colgroup>
@@ -583,9 +583,36 @@
                     <td class="left">주말 특가 3,000원 할인쿠폰</td>
                     <td>정액 3,000원</td>
                     <td>2026-10-01 ~ 2026-10-15</td>
-                    <td>발행대기</td>
+                    <td>발행중</td>
                     <td><span class="fo-chip" style="background:#16a34a;color:#fff">주말 특가 · 3천원 할인</span></td>
                     <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250903">쿠폰 상세</button></td>
+                  </tr>
+                  <tr>
+                    <td>C-250904</td>
+                    <td class="left">브랜드위크 추가할인 쿠폰</td>
+                    <td>정률 7% <span style="color:#999">(최대 20,000원)</span></td>
+                    <td>2026-09-21 ~ 2026-10-31</td>
+                    <td>발행중</td>
+                    <td><span class="fo-chip" style="background:#7c3aed;color:#fff">브랜드위크 추가할인 · 7% 할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250904">쿠폰 상세</button></td>
+                  </tr>
+                  <tr>
+                    <td>C-250905</td>
+                    <td class="left">가을 마지막 세일 추가 할인쿠폰</td>
+                    <td>정률 15% <span style="color:#999">(최대 30,000원)</span></td>
+                    <td>2026-10-20 ~ 2026-10-31</td>
+                    <td>발행대기</td>
+                    <td><span class="fo-chip" style="background:#0f766e;color:#fff">가을 마지막 세일 추가… · 15% 할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250905">쿠폰 상세</button></td>
+                  </tr>
+                  <tr>
+                    <td>C-250906</td>
+                    <td class="left">얼리버드 10,000원 할인쿠폰</td>
+                    <td>정액 10,000원</td>
+                    <td>2026-09-21 ~ 2026-09-30</td>
+                    <td>발행완료</td>
+                    <td><span class="fo-chip" style="background:#dfe3e8;color:#70767d">얼리버드 1만원 · 1만원 할인</span></td>
+                    <td><button type="button" class="btn tiny link coupon-detail-btn" data-no="C-250906">쿠폰 상세</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -1025,7 +1052,7 @@
     {
       target: '#couponCount',
       title: '적용 쿠폰 건수 표기 (요구사항 1 연계)',
-      body: '[Visible]\n- 현재 적용된 쿠폰 수와 최대 6건을 함께 노출\n[Exception]\n- 6/6이면 쿠폰관리의 기획전 선택 팝업에서 이 기획전이 선택 불가로 표시됨\n- 두 화면의 기준값은 동일한 쿠폰 적용 데이터'
+      body: '[Visible]\n- 기획전당 쿠폰은 6개 등록 고정\n- 발행중·발행대기·발행완료를 모두 포함해 6건을 센다\n[Exception]\n- 6건이 차면 쿠폰관리의 기획전 선택 팝업에서 이 기획전이 선택 불가로 표시됨\n- 발행완료 쿠폰도 자리를 차지하므로, 새 쿠폰을 넣으려면 기존 쿠폰의 적용대상을 먼저 해제해야 함\n- 두 화면의 기준값은 동일한 쿠폰 적용 데이터'
     },
     {
       target: '#refreshCouponBtn',

@@ -34,57 +34,100 @@
   .util-bar .wrap { display: flex; justify-content: space-between; align-items: center; height: 32px; font-size: 12px; color: var(--sub); }
   .util-bar .right { display: flex; gap: 14px; }
 
-  .head-main .wrap { display: flex; align-items: center; gap: 28px; height: 74px; }
-  .logo { display: flex; align-items: center; gap: 6px; font-size: 21px; font-weight: 800; color: var(--brand); white-space: nowrap; }
-  .logo .mark { font-size: 18px; }
-  .search-box { flex: 0 0 420px; display: flex; align-items: center; height: 38px; border: 2px solid var(--brand); border-radius: 3px; padding: 0 10px; }
-  .search-box input { flex: 1; border: none; outline: none; font-size: 13px; }
-  .search-box .ico { color: var(--brand); font-size: 15px; }
-  .head-util { margin-left: auto; display: flex; align-items: center; gap: 18px; color: var(--sub); font-size: 12px; }
-  .head-util .point-box { border: 1px solid var(--line-strong); border-radius: 4px; padding: 5px 10px; text-align: center; line-height: 1.3; }
-  .head-util .point-box b { color: var(--ink); }
-  .head-util .ico-btn { position: relative; font-size: 18px; color: #555; }
+  .head-main .wrap { display: flex; align-items: center; gap: 22px; height: 62px; }
+  .logo { display: flex; align-items: center; gap: 5px; font-size: 18px; font-weight: 800; color: var(--brand); white-space: nowrap; }
+  .logo .mark { font-size: 16px; }
+  .search-box { flex: 0 0 430px; display: flex; align-items: center; height: 32px; border: 1px solid var(--line-strong); border-radius: 16px; padding: 0 14px; }
+  .search-box input { flex: 1; border: none; outline: none; font-size: 12px; }
+  .search-box .ico { color: #9aa0a7; font-size: 14px; }
+  .head-util { margin-left: auto; display: flex; align-items: center; gap: 14px; color: var(--sub); font-size: 11px; }
+  .cashback {
+    display: flex; align-items: center; gap: 7px;
+    border: 1px solid #ffd9a8; background: #fff8ec; border-radius: 4px;
+    padding: 4px 10px; line-height: 1.25; color: #8a5a12;
+  }
+  .cashback .cb-ico { font-size: 14px; }
+  .cashback b { color: #e8620d; }
+  .head-util .ico-btn { position: relative; font-size: 16px; color: #666; }
   .head-util .ico-btn .badge {
     position: absolute; top: -5px; right: -7px;
-    min-width: 15px; height: 15px; padding: 0 4px;
-    background: var(--sale); color: #fff; border-radius: 8px;
-    font-size: 10px; line-height: 15px; text-align: center; font-weight: 700;
+    min-width: 14px; height: 14px; padding: 0 4px;
+    background: var(--sale); color: #fff; border-radius: 7px;
+    font-size: 9px; line-height: 14px; text-align: center; font-weight: 700;
   }
 
   .gnb { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line-strong); }
-  .gnb .wrap { display: flex; align-items: center; height: 42px; gap: 22px; }
-  .gnb .cat { font-size: 14px; font-weight: 700; }
-  .gnb .cat.on { color: var(--brand); }
-  .gnb .promo { margin-left: auto; display: flex; gap: 12px; align-items: center; font-size: 12px; font-weight: 700; }
+  .gnb .wrap { display: flex; align-items: center; height: 36px; gap: 18px; }
+  .gnb .cat { font-size: 12.5px; color: #4a4f55; }
+  .gnb .cat.on { color: var(--brand); font-weight: 700; }
+  .gnb .promo { margin-left: auto; display: flex; gap: 11px; align-items: center; font-size: 11.5px; font-weight: 700; }
+  .gnb .promo a { display: inline-flex; align-items: center; gap: 3px; }
   .gnb .promo .hot { color: #e8380d; }
+  .gnb .promo .deal { color: #f0a500; }
+  .gnb .promo .new { color: #16a34a; }
   .gnb .promo .only { color: #1a56db; }
 
-  /* ── 대형 배너 ───────────────────────── */
-  .event-hero { background: #000; }
+  /* ── 대형 배너 ─────────────────────────
+     실제 화면에서는 BO 전시내용에 등록한 이미지·HTML이 들어가는 영역.
+     여기서는 캡처의 7DAYS 특가 배너를 CSS로 근사 재현한다. */
+  .event-hero { background: #0a0618; }
   .hero-banner {
-    height: 300px;
+    position: relative;
+    height: 360px;
     background:
-      radial-gradient(circle at 22% 35%, rgba(126, 61, 219, .75), transparent 46%),
-      radial-gradient(circle at 78% 30%, rgba(26, 86, 219, .7), transparent 44%),
-      linear-gradient(160deg, #2a0b4d 0%, #140a33 55%, #0b0620 100%);
+      radial-gradient(circle at 20% 28%, rgba(146, 61, 232, .8), transparent 42%),
+      radial-gradient(circle at 80% 26%, rgba(42, 92, 232, .72), transparent 40%),
+      radial-gradient(circle at 50% 95%, rgba(214, 33, 138, .4), transparent 55%),
+      linear-gradient(165deg, #300d58 0%, #1a0a3c 50%, #0a0618 100%);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 14px; color: #fff; text-align: center;
+    overflow: hidden;
   }
-  .hero-banner .lead { font-size: 14px; letter-spacing: .02em; color: #d8c8ff; }
+  .hero-banner .bag {
+    position: absolute; font-size: 54px; filter: drop-shadow(0 0 16px rgba(190, 120, 255, .9));
+    user-select: none;
+  }
+  .hero-banner .bag.b1 { left: 20%; top: 34%; transform: rotate(-14deg); }
+  .hero-banner .bag.b2 { right: 20%; top: 30%; transform: rotate(12deg); }
+  .hero-banner .spark { position: absolute; color: #ffe14d; font-size: 20px; opacity: .85; }
+  .hero-banner .spark.s1 { left: 29%; top: 24%; }
+  .hero-banner .spark.s2 { right: 27%; top: 62%; }
+  .hero-banner .spark.s3 { left: 34%; bottom: 20%; font-size: 15px; }
+
+  .neon-hex {
+    clip-path: polygon(14% 0, 86% 0, 100% 50%, 86% 100%, 14% 100%, 0 50%);
+    background: linear-gradient(180deg, #e3b8ff, #8a2be2 55%, #4a12a0);
+    padding: 3px;
+    filter: drop-shadow(0 0 14px rgba(176, 94, 255, .95)) drop-shadow(0 0 34px rgba(120, 40, 220, .7));
+  }
+  .neon-hex .hex-in {
+    clip-path: polygon(14% 0, 86% 0, 100% 50%, 86% 100%, 14% 100%, 0 50%);
+    background: linear-gradient(170deg, #27094b, #16072f);
+    padding: 26px 86px 30px;
+    text-align: center; color: #fff;
+  }
+  .hero-banner .lead { font-size: 13.5px; letter-spacing: .01em; color: #e3cdff; line-height: 1.55; }
   .hero-banner .title {
-    font-size: 62px; font-weight: 900; letter-spacing: -.02em; line-height: 1;
-    color: #fff;
-    text-shadow: 0 0 10px #c07bff, 0 0 26px #8a2be2, 0 0 50px #5a1fb0;
-  }
-  .hero-banner .title em { font-style: normal; color: #ffe14d; text-shadow: 0 0 12px #ffb300, 0 0 32px #ff8f00; }
-  .hero-banner .cta {
     margin-top: 6px;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 11px 30px; border-radius: 22px;
-    background: linear-gradient(90deg, #e0218a, #b31478);
-    color: #fff; font-size: 15px; font-weight: 800;
+    font-size: 66px; font-weight: 900; letter-spacing: -.03em; line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 8px #fff, 0 0 20px #c07bff, 0 0 44px #8a2be2;
   }
-  .hero-notice { padding: 18px 0 24px; color: #cfd3da; font-size: 12.5px; text-align: center; line-height: 1.9; }
+  .hero-banner .title em { font-style: normal; color: #fff; }
+  .hero-banner .title .won {
+    display: block; margin-top: 8px;
+    font-size: 30px; letter-spacing: .08em;
+    color: #ffe14d; text-shadow: 0 0 10px #ffb300, 0 0 28px #ff8f00;
+  }
+
+  .hero-cta-row { display: flex; justify-content: center; padding: 22px 0 0; }
+  .hero-cta {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    width: 420px; height: 46px; border-radius: 23px;
+    background: linear-gradient(90deg, #e0218a, #a81270);
+    color: #fff; font-size: 15px; font-weight: 800;
+    box-shadow: 0 4px 16px rgba(224, 33, 138, .4);
+  }
+  .hero-notice { padding: 16px 0 26px; color: #b9bec6; font-size: 12px; text-align: center; line-height: 1.95; }
 
   /* ── 쿠폰 영역 (91888 TO-BE) ───────────────────────── */
   .coupon-zone { padding: 30px 0 4px; }
@@ -121,7 +164,13 @@
   }
   .coupon-card::before { left: -8px; }
   .coupon-card::after { right: -8px; }
-  .coupon-card .info { min-width: 0; }
+  /* 카드 폭이 고정(3열)이라 타이틀·설명은 1줄로 자르고 넘치면 말줄임.
+     입력 길이는 BO에서 제한하지만, 긴 문구가 들어와도 카드가 깨지지 않게 FO에서도 막는다. */
+  .coupon-card .info { min-width: 0; flex: 1 1 auto; }
+  .coupon-card .c-title,
+  .coupon-card .c-desc {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
   .coupon-card .c-title { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
   .coupon-card .c-desc { font-size: 13px; opacity: .95; }
   .coupon-card .c-period { margin-top: 7px; font-size: 11.5px; opacity: .8; }
@@ -136,10 +185,22 @@
   .coupon-card.done { cursor: default; }
   .coupon-card.done .info, .coupon-card.done .act { opacity: .45; }
   .coupon-card.done:hover { transform: none; box-shadow: none; }
+  /* 발행대기 = 아직 받을 수 없음. 색은 살리되 흐리게 해 "곧 열린다"는 느낌을 준다 */
+  .coupon-card.soon { cursor: default; }
+  .coupon-card.soon .info, .coupon-card.soon .act { opacity: .62; }
+  .coupon-card.soon:hover { transform: none; box-shadow: none; }
+  /* 발행완료·수량소진 = 더 이상 받을 수 없음 */
   .coupon-card.ended {
     background: #eceef1 !important; color: #9aa0a7 !important; cursor: default;
   }
   .coupon-card.ended:hover { transform: none; box-shadow: none; }
+  .coupon-card .state-flag {
+    position: absolute; top: 0; right: 0;
+    padding: 3px 10px; border-radius: 0 10px 0 10px;
+    background: rgba(0, 0, 0, .28);
+    font-size: 10.5px; font-weight: 700; letter-spacing: -.01em;
+  }
+  .coupon-card.ended .state-flag { background: #d7dadf; color: #70767d; }
 
   .coupon-note { margin: 12px 0 0; color: var(--sub); font-size: 12px; line-height: 1.8; }
 
@@ -158,8 +219,8 @@
   .pay-benefit .pb-head .t { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; }
   .pay-benefit .pb-head .t .ico { color: #1a56db; }
   .pay-benefit .pb-sub { margin: 16px 0 12px; color: var(--sub); font-size: 12.5px; }
-  .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 20px; }
-  .card-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .card-grid { display: flex; flex-wrap: wrap; gap: 14px 30px; }
+  .card-chip { display: flex; align-items: center; gap: 7px; font-size: 11.5px; }
   .card-chip .cl {
     flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -175,7 +236,11 @@
     border: none; background: none; cursor: pointer;
     font-size: 14px; color: var(--sub);
   }
-  .cat-tabs button.on { color: var(--ink); font-weight: 800; box-shadow: inset 0 -2px 0 var(--ink); }
+  .cat-tabs button.on {
+    color: var(--ink); font-weight: 800;
+    background: #f4f6f8; border-radius: 6px 6px 0 0;
+    box-shadow: inset 0 -2px 0 var(--ink);
+  }
   .cat-tabs .nav-arrow { color: #b9bec4; padding: 0 6px; }
   .cat-tabs .view-toggle { margin-left: auto; color: #9aa0a7; font-size: 15px; }
 
@@ -222,13 +287,32 @@
   footer.site-foot .f-top a { font-size: 12px; color: #555; }
 
   .quick-menu {
-    position: fixed; right: 18px; top: 150px;
-    width: 72px; border: 1px solid var(--line-strong); border-radius: 6px;
-    background: #fff; text-align: center; font-size: 11px; color: #666;
+    position: fixed; right: 16px; top: 86px;
+    width: 78px; text-align: center; font-size: 10.5px; color: #666;
     z-index: 30;
   }
-  .quick-menu .qm-top { background: #e8380d; color: #fff; font-weight: 800; padding: 8px 4px; line-height: 1.3; }
-  .quick-menu .qm-item { padding: 9px 4px; border-top: 1px solid var(--line); }
+  .quick-menu .qm-promo {
+    border-radius: 6px; overflow: hidden;
+    background: linear-gradient(170deg, #e8380d, #b31478);
+    color: #fff; padding: 10px 6px; line-height: 1.35; font-weight: 800;
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  }
+  .quick-menu .qm-promo small { display: block; font-size: 9px; font-weight: 600; opacity: .92; margin-top: 3px; }
+  .quick-menu .qm-arrows {
+    display: flex; justify-content: center; gap: 10px;
+    margin-top: 6px; padding: 4px 0;
+    border: 1px solid var(--line-strong); border-radius: 4px;
+    background: #fff; color: #9aa0a7;
+  }
+  .quick-menu .qm-box { margin-top: 6px; border: 1px solid var(--line-strong); border-radius: 4px; background: #fff; }
+  .quick-menu .qm-item { padding: 9px 4px; line-height: 1.3; }
+  .quick-menu .qm-item + .qm-item { border-top: 1px solid var(--line); }
+  .quick-menu .qm-item .i { display: block; font-size: 15px; margin-bottom: 2px; }
+  .quick-menu .qm-top {
+    margin-top: 6px; padding: 7px 4px;
+    border: 1px solid var(--line-strong); border-radius: 4px;
+    background: #fff; font-weight: 700; color: #555;
+  }
 
   .toast {
     position: fixed; left: 50%; bottom: 44px;
@@ -246,9 +330,9 @@
 
 <div class="util-bar">
   <div class="wrap">
-    <span>안녕하세요, <b>박장훈</b>님</span>
+    <span>안녕하세요! <a href="#">로그인</a> 해주세요</span>
     <span class="right">
-      <a href="#">선물하기</a><a href="#">이용안내</a><a href="#">고객센터</a><a href="#">관리자</a>
+      <a href="#">이벤트</a><a href="#">서비스센터</a><a href="#">이용안내</a><a href="#">고객센터</a><a href="#">관리자</a>
     </span>
   </div>
 </div>
@@ -261,9 +345,12 @@
       <span class="ico">⌕</span>
     </div>
     <div class="head-util">
-      <div class="point-box">보유 포인트<br><b>12,500 P</b></div>
+      <span class="cashback">
+        <span class="cb-ico">🎁</span>
+        <span>제너두 캐시 적립<br><b>최대 1000원~20%</b></span>
+      </span>
       <a class="ico-btn" href="#" title="마이페이지">☺</a>
-      <a class="ico-btn" href="#" title="장바구니">🛒<span class="badge">2</span></a>
+      <a class="ico-btn" href="#" title="장바구니">🛒<span class="badge">0</span></a>
     </div>
   </div>
 </div>
@@ -280,20 +367,31 @@
     <a class="cat" href="#">기프티콘</a>
     <span class="promo">
       <a class="hot" href="#">🔥 할인쿠폰</a>
-      <a href="#">월말할인 특가</a>
-      <a href="#">신규특가</a>
+      <a class="deal" href="#">⚡ 알뜰몰 특가</a>
+      <a class="new" href="#">신규특가</a>
       <a href="#">베스트</a>
       <a class="only" href="#">제너두 Only</a>
     </span>
   </div>
 </nav>
 
-<!-- ───────── 대형 배너 ───────── -->
+<!-- ───────── 대형 배너 (BO 전시내용 등록분) ───────── -->
 <div class="event-hero">
   <div class="hero-banner">
-    <div class="lead">단 7일간! 매주 새로운 상품 마법같은 특가</div>
-    <div class="title">7<em>DAYS</em> 특가</div>
-    <a class="cta" href="#">역대급 Super Sale! 이달의 파워특가 보러가기 ›</a>
+    <span class="bag b1">🛍️</span>
+    <span class="bag b2">🛍️</span>
+    <span class="spark s1">✦</span>
+    <span class="spark s2">✦</span>
+    <span class="spark s3">✦</span>
+    <div class="neon-hex">
+      <div class="hex-in">
+        <div class="lead">단 7일간!<br>매주 새로운 상품 마법같은 특가</div>
+        <div class="title">7<em>DAYS</em><span class="won">특가</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-cta-row">
+    <a class="hero-cta" href="#">역대급 Super Sale! 이달의 파워특가 보러가기 ›</a>
   </div>
   <div class="hero-notice wrap">
     - 매주 월요일 오전 11시부터 일주일간 진행되는 특가입니다.<br>
@@ -354,13 +452,26 @@
         <div class="act"><span class="ico">✓</span><span class="txt">받음</span></div>
       </div>
 
+      <!-- 발행대기 = 쿠폰 오픈 예정 -->
+      <div class="coupon-card soon" style="background:#0f766e" data-name="가을 마지막 세일 추가 할인쿠폰" data-open="10/20">
+        <span class="state-flag">오픈 예정</span>
+        <div class="info">
+          <div class="c-title">가을 마지막 세일 추가 할인쿠폰</div>
+          <div class="c-desc">15% 할인 (최대 30,000원, 5만원 이상 구매 시)</div>
+          <div class="c-period">10/20(월) 11:00 오픈</div>
+        </div>
+        <div class="act"><span class="ico">🕐</span><span class="txt">오픈예정</span></div>
+      </div>
+
+      <!-- 발행완료·수량소진 = 쿠폰 소진 -->
       <div class="coupon-card ended" data-name="얼리버드 1만원">
+        <span class="state-flag">소진</span>
         <div class="info">
           <div class="c-title">얼리버드 1만원</div>
           <div class="c-desc">10,000원 할인</div>
-          <div class="c-period">수량 소진</div>
+          <div class="c-period">쿠폰이 모두 소진되었습니다</div>
         </div>
-        <div class="act"><span class="ico">✕</span><span class="txt">종료</span></div>
+        <div class="act"><span class="ico">✕</span><span class="txt">소진</span></div>
       </div>
     </div>
 
@@ -437,10 +548,15 @@
 </footer>
 
 <aside class="quick-menu">
+  <div class="qm-promo">7DAYS<br>특가<small>매주 새로운 특가</small></div>
+  <div class="qm-arrows"><span>‹</span><span>›</span></div>
+  <div class="qm-box">
+    <div class="qm-item"><span class="i">🎟</span>쿠폰</div>
+    <div class="qm-item"><span class="i">💬</span>상담</div>
+    <div class="qm-item"><span class="i">🛒</span>장바구니</div>
+  </div>
   <div class="qm-top">최근 본<br>상품</div>
-  <div class="qm-item">쿠폰</div>
-  <div class="qm-item">장바구니</div>
-  <div class="qm-item">TOP</div>
+  <div class="qm-top">TOP ▲</div>
 </aside>
 
 <div class="toast" id="toast"></div>
@@ -469,7 +585,7 @@
     card.querySelector('.act .txt').textContent = '받음';
   }
   function remaining() {
-    return grid.querySelectorAll('.coupon-card:not(.done):not(.ended)');
+    return grid.querySelectorAll('.coupon-card:not(.done):not(.ended):not(.soon)');
   }
   function refreshCount() {
     var n = remaining().length;
@@ -481,7 +597,8 @@
   grid.addEventListener('click', function (e) {
     var card = e.target.closest('.coupon-card');
     if (!card) return;
-    if (card.classList.contains('ended')) { showToast('수량이 소진되었거나 발급이 종료된 쿠폰입니다'); return; }
+    if (card.classList.contains('ended')) { showToast('쿠폰이 모두 소진되었습니다'); return; }
+    if (card.classList.contains('soon')) { showToast(card.dataset.open + ' 오픈 예정인 쿠폰입니다'); return; }
     if (card.classList.contains('done')) { showToast('이미 받은 쿠폰입니다'); return; }
     markDone(card);
     refreshCount();
@@ -492,6 +609,7 @@
   downloadAllBtn.addEventListener('click', function () {
     var targets = remaining();
     if (!targets.length) { showToast('받을 수 있는 쿠폰이 없습니다'); return; }
+    var soon = grid.querySelectorAll('.coupon-card.soon').length;
     var blocked = grid.querySelectorAll('.coupon-card.ended').length;
     var already = grid.querySelectorAll('.coupon-card.done').length;
     targets.forEach(markDone);
@@ -499,7 +617,8 @@
     var msg = targets.length + '장이 발급되었습니다';
     var skip = [];
     if (already) skip.push('이미 받음 ' + already + '장');
-    if (blocked) skip.push('발급 불가 ' + blocked + '장');
+    if (soon) skip.push('오픈 예정 ' + soon + '장');
+    if (blocked) skip.push('소진 ' + blocked + '장');
     if (skip.length) msg += ' (' + skip.join(' / ') + ')';
     showToast(msg);
   });
@@ -576,17 +695,22 @@
     {
       target: '#couponZoneTitle',
       title: '기획전 쿠폰 영역 신설 (요구사항 2·5·7)',
-      body: '[Visible]\n- 위치: 대형 배너 아래, 상품 보기 버튼 위\n- 3열 2행, 최대 6개까지 노출\n- 카드의 타이틀·쿠폰정보 문구·배경색·텍스트색은 쿠폰관리(BO)에서 현업이 입력한 값 (요구사항 7)\n- 유효기간은 쿠폰 데이터의 시스템 값\n[Exception]\n- 기획전 적용고객사 대상이 아닌 유저에게는 영역 전체 미노출 (요구사항 5)\n- 노출할 쿠폰이 0건이면 영역 자체를 그리지 않음'
+      body: '[Visible]\n- 위치: 대형 배너 아래, 상품 보기 버튼 위\n- 3열 2행 고정, 기획전당 쿠폰 6개 등록 고정\n- 발행상태와 무관하게 등록된 6개를 모두 노출하고 상태를 라벨로 구분\n- 카드의 타이틀·쿠폰정보 문구·배경색·텍스트색은 쿠폰관리(BO)에서 현업이 입력한 값 (요구사항 7)\n- 유효기간·발행상태는 쿠폰 데이터의 시스템 값\n[Exception]\n- 기획전 적용고객사 대상이 아닌 유저에게는 영역 전체 미노출 (요구사항 5)\n- 등록 쿠폰이 6개 미만이면 빈 칸을 남기지 않고 있는 만큼만 노출'
     },
     {
       target: '#couponGrid',
-      title: '개별 다운로드 — 카드 전체가 클릭 영역 (요구사항 2)',
-      body: '[Action]\n- 카드 아무 곳이나 클릭 → 해당 쿠폰 1장 발급\n[Visible]\n- 상태 3종: 받기 전(컬러 + ⬇) / 받음(흐리게 + ✓) / 종료·소진(회색 + ✕)\n- 받은 쿠폰도 목록에서 사라지지 않고 받음 상태로 남음\n[Exception]\n- 받음 상태 재클릭 시 "이미 받은 쿠폰입니다"\n- 종료·소진 클릭 시 "수량이 소진되었거나 발급이 종료된 쿠폰입니다"\n- 비로그인 상태면 로그인 화면으로 유도'
+      title: '쿠폰 상태 4종 · 개별 다운로드 (요구사항 2)',
+      body: '[Visible]\n- 발행중·미수령 → 컬러 카드 + ⬇ 받기\n- 발행중·수령완료 → 흐리게 + ✓ 받음\n- 발행대기 → 흐리게 + 우상단 "오픈 예정" 라벨, 오픈 일시 표기\n- 발행완료·수량소진 → 회색 + "소진" 라벨\n[Action]\n- 카드 아무 곳이나 클릭 → 해당 쿠폰 1장 발급 (버튼이 아니라 카드 전체가 클릭 영역)\n[Exception]\n- 받음 재클릭 → "이미 받은 쿠폰입니다"\n- 오픈 예정 클릭 → "10/20 오픈 예정인 쿠폰입니다"\n- 소진 클릭 → "쿠폰이 모두 소진되었습니다"\n- 비로그인 상태면 로그인 화면으로 유도'
     },
     {
       target: '#downloadAllBtn',
       title: '쿠폰 전체 다운로드 — 잔여분만 발급 (요구사항 2)',
-      body: '[Action]\n- 클릭 시 아직 받지 않은 쿠폰만 일괄 발급\n- 결과를 건수로 안내 (예: 3장이 발급되었습니다 / 이미 받음 1장 / 발급 불가 1장)\n[Exception]\n- 일부가 소진·종료여도 전체를 막지 않고 발급 가능한 것만 처리\n- 받을 수 있는 쿠폰이 0장이면 버튼 비활성화'
+      body: '[Action]\n- 클릭 시 지금 받을 수 있는 쿠폰만 일괄 발급\n- 결과를 건수로 안내 (예: 3장 발급 / 이미 받음 1장 / 오픈 예정 1장 / 소진 1장)\n[Exception]\n- 일부가 오픈 예정·소진이어도 전체를 막지 않고 발급 가능한 것만 처리\n- 받을 수 있는 쿠폰이 0장이면 버튼 비활성화'
+    },
+    {
+      target: '#couponGrid',
+      title: '타이틀·설명 줄임 처리 기준',
+      body: '[Visible]\n- 타이틀·설명 각각 1줄 고정, 넘치면 말줄임(…)\n- 3열 기준 카드 안쪽 폭 약 300px — 타이틀 16px 약 18자, 설명 13px 약 23자까지 표시\n[Exception]\n- 입력 제한은 BO에서 건다: 타이틀 14자, 쿠폰정보 문구 20자\n- FO의 말줄임은 BO 제한을 우회한 값이 들어와도 카드가 깨지지 않게 하는 안전장치\n- 줄바꿈 2줄 노출은 쓰지 않음 — 카드 높이가 쿠폰마다 달라져 그리드가 어긋남'
     },
     {
       target: '#couponNote',
