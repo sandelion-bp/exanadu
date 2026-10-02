@@ -87,9 +87,7 @@
   }
 
   .screens-list { display: flex; flex-direction: column; gap: 10px; }
-  .screens-row { display: flex; align-items: stretch; gap: 10px; }
   .screens-link {
-    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -106,28 +104,11 @@
   .screens-link .sub { color: var(--sub); font-size: 12px; margin-top: 2px; }
   .screens-link .arrow { color: var(--accent); font-size: 18px; }
 
-  .pdf-btn {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 76px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--sub);
-    font-size: 13px;
-    font-weight: 600;
-    gap: 4px;
-  }
-  .pdf-btn:hover { border-color: var(--accent); color: var(--accent); }
-
 </style>
 </head>
 <body>
 
-<div class="back-bar"><a href="../index.html">← exanadu</a></div>
+<div class="back-bar sb-no-export"><a href="../index.html">← exanadu</a></div>
 
 <header class="doc-head">
   <h1>91888 기획전 전용 할인쿠폰</h1>
@@ -196,16 +177,13 @@
   <section>
     <h2>화면설계</h2>
     <div class="screens-list">
-      <div class="screens-row">
-        <a class="screens-link" href="screens/쿠폰관리.html">
-          <div>
-            <div class="name">쿠폰관리</div>
-            <div class="sub">요구사항 1·7 구현. 나머지는 다른 화면에서 다룰 예정</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-        <a class="pdf-btn" href="screens/쿠폰관리.html?print=1" target="_blank" rel="noopener" title="PDF로 다운로드">⬇ PDF</a>
-      </div>
+      <a class="screens-link" href="screens/쿠폰관리.html">
+        <div>
+          <div class="name">쿠폰관리</div>
+          <div class="sub">요구사항 1·7 구현. 나머지는 다른 화면에서 다룰 예정</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
     </div>
   </section>
 
